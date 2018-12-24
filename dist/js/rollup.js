@@ -86,75 +86,29 @@
                 }
             }
 
-            if(!!option.childElementTag){
-                var _toggleObjChild = this.getElementsByTagName(option.childElementTag)[0];
-                var _classActiveChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classActive);
-                var _classDefaultChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classDefault);
-                if(_toggleObjChild.className === _classActiveChild){
-                    _toggleObjChild.className = _classDefaultChild;
-                }else{
-                    _toggleObjChild.className = _classActiveChild;
+            if(option){
+                if(option.childElementTag){
+                    var _toggleObjChild = this.getElementsByTagName(option.childElementTag)[0];
+                    var _classActiveChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classActive);
+                    var _classDefaultChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classDefault);
+                    if(_toggleObjChild.className === _classActiveChild){
+                        _toggleObjChild.className = _classDefaultChild;
+                    }else{
+                        _toggleObjChild.className = _classActiveChild;
+                    }
                 }
             }
         };
-    }
-
-
-    function fnTimeCountDown(dom,d) {
-        var _this = dom;
-        var EndTime = new Date(d);
-        var t = EndTime.getTime() - new Date().getTime();
-    console.log(t);
-        var o = {
-            hm: _this.getElementsByClassName("hm")[0],
-            sec: _this.getElementsByClassName("sec")[0],
-            mini: _this.getElementsByClassName("mini")[0],
-            hour: _this.getElementsByClassName("hour")[0],
-            day: _this.getElementsByClassName("day")[0]
-        };
-        console.log(o);
-
-        var timeout = function () {
-            t = EndTime.getTime() - new Date().getTime();
-            o.hm && (o.hm.innerText=countNumber(t , 1000,true));
-            o.sec && (o.sec.innerText=countNumber(t / 1000,60,true));
-            o.mini && (o.mini.innerText=countNumber(t / 1000 / 60,60,true));
-            o.hour && (o.hour.innerText=countNumber(t / 1000 / 60 / 60,60,true));
-            o.day && (o.day.innerText=countNumber(t / 1000 / 60 / 60/24,0,true));
-        };
-        if(t > 0){
-            setInterval(timeout, 1);
-        }
-    }
-    function countNumber(val,num,zero) {
-        var _res = 0;
-        if(num===1000){
-            _res = Math.floor(val % num);
-        }else if(num===60){
-            _res = Math.floor(val % num);
-        }else{
-            _res = Math.floor(val);
-        }
-        var _zero = (num > 100) ? ((_res < 10) ? '00' : ((_res < 100) ? '0' : '')) : (_res < 10) ? '0' : '';
-        return zero ? _zero+_res : _res;
     }
 
     /**
      * Created by GA on 2018/11/14.
      */
 
-    window.onload = function(){
-        document.getElementById('pageLoader').style.display='none';
-
-        var alink = getElementsByClassName('page-loader','div');
+        var alink = getElementsByClassName('navbar-toggle','button');
         ForEach(function (e) {
             toggleClass(e,true,'active');
         },alink);
-
-        setTimeout(function () {
-            fnTimeCountDown(document.getElementById("fnTimeCountDown"),"2018/11/30 23:59:59");
-        },10);
-    };
 
 }());
 //# sourceMappingURL=rollup.js.map

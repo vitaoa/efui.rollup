@@ -84,14 +84,16 @@ export function toggleClass(ele,toggleParent,toggleClass,option) {
             }
         }
 
-        if(!!option.childElementTag){
-            var _toggleObjChild = this.getElementsByTagName(option.childElementTag)[0];
-            var _classActiveChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classActive);
-            var _classDefaultChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classDefault);
-            if(_toggleObjChild.className === _classActiveChild){
-                _toggleObjChild.className = _classDefaultChild;
-            }else{
-                _toggleObjChild.className = _classActiveChild;
+        if(option){
+            if(option.childElementTag){
+                var _toggleObjChild = this.getElementsByTagName(option.childElementTag)[0];
+                var _classActiveChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classActive);
+                var _classDefaultChild = _toggleObjChild.className.replace(option.classReg,"$1"+option.classDefault);
+                if(_toggleObjChild.className === _classActiveChild){
+                    _toggleObjChild.className = _classDefaultChild;
+                }else{
+                    _toggleObjChild.className = _classActiveChild;
+                }
             }
         }
     }
@@ -102,7 +104,7 @@ export function fnTimeCountDown(dom,d) {
     var _this = dom;
     var EndTime = new Date(d);
     var t = EndTime.getTime() - new Date().getTime();
-console.log(t)
+
     var o = {
         hm: _this.getElementsByClassName("hm")[0],
         sec: _this.getElementsByClassName("sec")[0],
@@ -110,29 +112,27 @@ console.log(t)
         hour: _this.getElementsByClassName("hour")[0],
         day: _this.getElementsByClassName("day")[0]
     };
-    console.log(o)
 
     var timeout = function () {
         t = EndTime.getTime() - new Date().getTime();
-        o.hm && (o.hm.innerText=countNumber(t , 1000,true));
-        o.sec && (o.sec.innerText=countNumber(t / 1000,60,true));
-        o.mini && (o.mini.innerText=countNumber(t / 1000 / 60,60,true));
-        o.hour && (o.hour.innerText=countNumber(t / 1000 / 60 / 60,60,true));
-        o.day && (o.day.innerText=countNumber(t / 1000 / 60 / 60/24,0,true));
+
+        var totalSeconds = t/1000;//秒
+        var _day = Math.floor(totalSeconds / (60 * 60 * 24));//天
+        var leftTime = totalSeconds % (60 * 60 * 24);
+        var _hour = Math.floor(leftTime / (60 * 60));//小时
+        leftTime = leftTime % (60 * 60);
+        var _mini = Math.floor(leftTime / 60);//分
+        var _sec = Math.floor(leftTime % 60);//秒
+
+        o.hm && (o.hm.innerText=Math.floor(t % 1000));
+        o.sec && (o.sec.innerText=_sec);
+        o.mini && (o.mini.innerText=_mini);
+        o.hour && (o.hour.innerText=_hour);
+        o.day && (o.day.innerText=_day);
+
+
     };
     if(t > 0){
         setInterval(timeout, 1);
     }
-}
-function countNumber(val,num,zero) {
-    var _res = 0;
-    if(num===1000){
-        _res = Math.floor(val % num);
-    }else if(num===60){
-        _res = Math.floor(val % num);
-    }else{
-        _res = Math.floor(val);
-    }
-    var _zero = (num > 100) ? ((_res < 10) ? '00' : ((_res < 100) ? '0' : '')) : (_res < 10) ? '0' : '';
-    return zero ? _zero+_res : _res;
 }
