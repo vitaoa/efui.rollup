@@ -236,6 +236,14 @@ pre {
   text-indent: -9999px;
   text-align: left; }
 
+.clearfix {
+  *zoom: 1; }
+  .clearfix:before, .clearfix:after {
+    content: "";
+    display: table; }
+  .clearfix:after {
+    clear: both; }
+
 /* header */
 .logo {
   display: block;
@@ -280,6 +288,12 @@ pre {
   width: 280px;
   margin: 0 auto;
   padding: 2em 0; }
+
+.search-result li {
+  margin: 1em 0; }
+
+.search-result a {
+  display: block; }
 
 col-group {
   *zoom: 1; }

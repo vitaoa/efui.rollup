@@ -71,15 +71,18 @@
 		</header>
 		<div class="view-container container">
 			<div class="main-container">
-				<div class="search-bar col-group">
-					<div class="col-group-7"><input type="text" class="i-text i-text-block"></div>
-					<div class="col-group-3"><button type="submit" class="btn btn-primary btn-block">搜索</button></div>
+				<div class="search-bar col-group clearfix">
+					<div class="col-group-7"><input type="text" class="i-text i-text-block" id="searchVal"></div>
+					<div class="col-group-3"><button type="submit" class="btn btn-primary btn-block" id="searchBtn" onclick="searchFn()">搜索</button></div>
+				</div>
+				<div class="search-result">
+					<ul id="searchResult"></ul>
 				</div>
 			</div>
 		</div>
 
 		<script src="dist/js/rollup.js"></script>
-		<script src="dist/js/test.js"></script>
+		<script src="dist/scripts/ts/test.js"></script>
 		<script>
             window.onload = function(){
                 document.getElementById('pageLoader').style.display='none';

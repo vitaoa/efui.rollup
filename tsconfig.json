@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ES3",
+        "module": "AMD",
+        "alwaysStrict":true,
+        "allowJs":true,
+        "checkJs":true,
+        "removeComments": false,
+        "sourceMap": true,
+        "noImplicitAny": false
+    },
+    "lib": ["dom", "es6"],
+    "files": ["app/**/*.ts"]
+}
