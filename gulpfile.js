@@ -5,9 +5,13 @@ const ts = require('gulp-typescript');
 const tsProject = ts.createProject("tsconfig.json");
 /*****typescript*****/
 
+/*****file-include*****/
+const fileinclude = require('gulp-file-include');
+/*****file-include*****/
+
 //---------------------------------------参数声明----------------------------//
 const fileinclude_DIR = './app/';   // 源文件目录
-const DIST_DIR = './dist/';   // 文件输出目录
+const DIST_DIR = './';   // 文件输出目录，根目录
 const SASS_DIR =   './scss/'; // 样式预处理文件目录
 
 // 具体项目文件目录
@@ -39,3 +43,39 @@ gulp.task('watchTS', function() {
     gulp.watch(fileinclude_DIR + CUR_PATH + '**/*.ts', gulp.series('typeScript'));
 });
 //---------------------------------------typeScript----------------------------//
+
+
+// html编译
+//---------------------------------------file-include----------------------------//
+let paramHtml={
+    rootUrl:'/bag/en/',
+    timestamp:[new Date().getTime(),Math.random().toFixed(0)],
+    styles: ['/css/efui.css']
+}
+gulp.task('fileIncludeIndex',function(done) {
+    gulp.src(fileinclude_DIR + 'views/**/index.html')
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file',
+            indent:true,
+            context: paramHtml
+        }))
+        .pipe(gulp.dest(DIST_DIR));
+    done();
+});
+gulp.task('fileInclude',function(done) {
+    gulp.src([fileinclude_DIR + 'views/**/*.html','!' + fileinclude_DIR + 'views/**/index.html','!' + fileinclude_DIR + 'views/includes/**/*.html'])
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file',
+            indent:true,
+            context: paramHtml
+        }))
+        .pipe(gulp.dest(DIST_DIR + 'pages/'));
+    done();
+});
+gulp.task('watchHTML',function () {
+    gulp.watch(fileinclude_DIR + 'views/**/*.html',gulp.parallel('fileInclude', 'fileIncludeIndex'));
+});
+gulp.task('HTML',gulp.series('fileInclude', 'fileIncludeIndex','watchHTML'));
+//---------------------------------------file-include----------------------------//

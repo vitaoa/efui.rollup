@@ -1,14 +1,27 @@
-# efui.rollup
+## rollup&Gulp4
+###gulp 4.0 升级指南
+1. gulp.task 移除了三参数语法，现在不能使用数组来指定一个任务的依赖。gulp 4.0 加入了 gulp.series 和 gulp.parallel 来实现任务的串行化和并行化。
+
+    gulp.series 用于串行（顺序）执行
+    gulp.parallel 用于并行执行
+    
+
+    任务函数中，如果任务是同步的，需要使用 done 回调。这样做是为了让 gulp 知道你的任务何时完成。类似这样：                 
+    `gulp.task('a', function(done){
+        done()
+    })`
+2. gulp.dest 添加了 dirMode 参数，可以指定生成文件夹的模式。
+3. gulp.src 添加 since 选项，只匹配在某个固定时间后有修改的文件，这可以用来做增量构建
 
 
-### 终端命令参数
+#### 终端命令参数
     // rollup main.js -o index.js -f iife
     // -f 指定输出文件类型：cjs(nodejs使用), iife(浏览器使用), umd(浏览器与nodejs同时使用)
     // -o 输出文件名
     // --watch rollup-watch插件，监听源文件是否有改动，如果有改动，重新打包
     // -c 指定配置文件，默认rollup.config.js
 
-### 配置文件rollup.config.js
+#### 配置文件rollup.config.js
     export default {
         input: 'app/scripts/module/rollup.js',
         output: {
@@ -34,7 +47,7 @@
     . strict — 'use strict';严格模式，默认开启
     
     
-### SourceMap 使用教程    
+#### SourceMap 使用教程    
 
     SourceMap：一个存储源代码与编译代码对应位置映射的信息文件    
     在前端的工作中主要是用来解决以下三个方面出现的 debug 问题：
@@ -43,7 +56,7 @@
     c. 利用 webpack/rollup 等打包工具进行多文件合并后
     
     
-### plugins 插件
+#### plugins 插件
 1. **scss**: npm i -D node-sass rollup-plugin-postcss autoprefixer cssnano
 
         import postcss from 'rollup-plugin-postcss';
@@ -57,26 +70,50 @@
             })
         ]
         
-## TypeScript
+        
+        
+## gulp插件：
+1. **TypeScript**:       
     
-    安装：先全局安装TypeScript和Gulp。
-    插件：gulp-typescript是TypeScript的一个Gulp插件。
-    npm install --save-dev typescript gulp-typescript
+        安装：先全局安装TypeScript和Gulp。
+        插件：gulp-typescript是TypeScript的一个Gulp插件。    
+        npm install --save-dev typescript gulp-typescript   
+        const ts = require('gulp-typescript');
+        const tsProject = ts.createProject("tsconfig.json"); 
+        gulp.task('typeScript', function () {
+            return gulp.src(fileinclude_DIR + CUR_PATH + '**/*.ts',{base: fileinclude_DIR})
+                .pipe(tsProject())
+                .js.pipe(gulp.dest(DIST_DIR));
+        });
+        gulp.task('watchTS', function() {
+            gulp.watch(fileinclude_DIR + CUR_PATH + '**/*.ts', gulp.series('typeScript'));
+        });    
     
-    gulp.task('typeScript', function () {
-        return gulp.src(fileinclude_DIR + CUR_PATH + '**/*.ts',{base: fileinclude_DIR})
-            .pipe(tsProject())
-            .js.pipe(gulp.dest(DIST_DIR));
-    });
-    gulp.task('watchTS', function() {
-        gulp.watch(fileinclude_DIR + CUR_PATH + '**/*.ts', gulp.series('typeScript'));
-    });
+    **tsconfig.json 文件中参数的解释：**
+   
+        target：编译之后生成的JavaScript文件需要遵循的标准。有三个候选项：es3、es5、es2015。
+        noImplicitAny：为false时，如果编译器无法根据变量的使用来判断类型时，将用any类型代替。为true时，将进行强类型检查，无法推断类型时，提示错误。
+        module：遵循的JavaScript模块规范。主要的候选项有：commonjs、AMD和es2015。为了后面与node.js保持一致，我们这里选用commonjs。
+        removeComments：编译生成的JavaScript文件是否移除注释。
+        sourceMap：编译时是否生成对应的source map文件。这个文件主要用于前端调试。当前端js文件被压缩引用后，出错时可借助同名的source map文件查找源文件中错误位置。
+        outDir：编译输出JavaScript文件存放的文件夹。
+        include、exclude：编译时需要包含/剔除的文件夹。
     
-### tsconfig.json 文件中参数的解释：
-    target：编译之后生成的JavaScript文件需要遵循的标准。有三个候选项：es3、es5、es2015。
-    noImplicitAny：为false时，如果编译器无法根据变量的使用来判断类型时，将用any类型代替。为true时，将进行强类型检查，无法推断类型时，提示错误。
-    module：遵循的JavaScript模块规范。主要的候选项有：commonjs、AMD和es2015。为了后面与node.js保持一致，我们这里选用commonjs。
-    removeComments：编译生成的JavaScript文件是否移除注释。
-    sourceMap：编译时是否生成对应的source map文件。这个文件主要用于前端调试。当前端js文件被压缩引用后，出错时可借助同名的source map文件查找源文件中错误位置。
-    outDir：编译输出JavaScript文件存放的文件夹。
-    include、exclude：编译时需要包含/剔除的文件夹。
+    **TypeScript与Rollup集成**
+    
+        安装插件：npm install --save-dev rollup-plugin-typescript tslib
+        在配置文件rollup.config.js里写入：
+        import typescript from 'rollup-plugin-typescript';
+        export default {
+          plugins: [
+            typescript({lib: ["es5", "es6", "dom"], target: "es5"})
+          ]
+        }
+        引用ts文件：import { fnTimeCountDown } from '../ts/CountDown.ts';
+    
+1. **file-include**:   
+
+        安装插件：gulp-file-include。    
+        npm install --save-dev gulp-file-include
+        const fileinclude = require('gulp-file-include');    
+    

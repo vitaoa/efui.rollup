@@ -10,7 +10,7 @@
 * 该函数有三个参数：第一个参数是class名（必选，字串形式）；第二个参数是该DOM节点的标签名(字串形式)；第三个参数是父容器（可选），默认为body节点，通过设置id获取。
 * Eg:var adom = getElementsByClassName('title','h3'); ==>jQuery:var adom = $('h3.title');
 * */
-export function getElementsByClassName (cName,domTag,root) {
+function getElementsByClassName (cName,domTag,root) {
     if (root) {
         root = typeof root == "string" ? document.getElementById(root) : root;
     } else{
@@ -39,7 +39,7 @@ export function getElementsByClassName (cName,domTag,root) {
 
 //callBack:回调函数,遍历数组中的一项,就要执行一次callBack
 //context:改变callBack方法中的this指向
-export function ForEach(callBack, context) {
+function ForEach(callBack, context) {
     typeof context === "undefined" ? context = window : null;
 
     if ("forEach" in Array.prototype) {
@@ -54,7 +54,7 @@ export function ForEach(callBack, context) {
 
 //该函数有三个基本参数：第一个参数是DOM节点（必选）；第二个参数是事件是否是父元素（必选）；第三个参数是切换的class名（必选，字串或者正则形式）,正则形式时必须配置option参数("classActive"和"classDefault");
 //第四个是扩展参数:子元素的相关参数,正则匹配替换的class变量.
-export function toggleClass(ele,toggleParent,toggleClass,option) {
+function toggleClass(ele,toggleParent,toggleClass,option) {
     ele.onclick=function () {
         var isRegExp = toggleClass instanceof RegExp;
         var _toggleObj;
@@ -99,40 +99,3 @@ export function toggleClass(ele,toggleParent,toggleClass,option) {
     }
 }
 
-
-export function fnTimeCountDown(dom,d) {
-    var _this = dom;
-    var EndTime = new Date(d);
-    var t = EndTime.getTime() - new Date().getTime();
-
-    var o = {
-        hm: _this.getElementsByClassName("hm")[0],
-        sec: _this.getElementsByClassName("sec")[0],
-        mini: _this.getElementsByClassName("mini")[0],
-        hour: _this.getElementsByClassName("hour")[0],
-        day: _this.getElementsByClassName("day")[0]
-    };
-
-    var timeout = function () {
-        t = EndTime.getTime() - new Date().getTime();
-
-        var totalSeconds = t/1000;//秒
-        var _day = Math.floor(totalSeconds / (60 * 60 * 24));//天
-        var leftTime = totalSeconds % (60 * 60 * 24);
-        var _hour = Math.floor(leftTime / (60 * 60));//小时
-        leftTime = leftTime % (60 * 60);
-        var _mini = Math.floor(leftTime / 60);//分
-        var _sec = Math.floor(leftTime % 60);//秒
-
-        o.hm && (o.hm.innerText=Math.floor(t % 1000));
-        o.sec && (o.sec.innerText=_sec);
-        o.mini && (o.mini.innerText=_mini);
-        o.hour && (o.hour.innerText=_hour);
-        o.day && (o.day.innerText=_day);
-
-
-    };
-    if(t > 0){
-        setInterval(timeout, 1);
-    }
-}

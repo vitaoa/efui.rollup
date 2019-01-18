@@ -2,11 +2,12 @@
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
+import typescript from 'rollup-plugin-typescript';
 
 export default {
     input: 'app/scripts/module/rollup.js',
     output: {
-        file: 'dist/js/rollup.js',
+        file: 'js/rollup.js',
         format: 'iife',
         name: 'MyBundle',
     },
@@ -14,9 +15,10 @@ export default {
         postcss({
             extensions: [ '.css' ],
             // plugins: [autoprefixer, cssnano],
-            extract: 'dist/css/efui.css' // 输出路径
+            extract: 'css/efui.css' // 输出路径
         }),
+        typescript({lib: ["es5", "es6", "dom"], target: "es5"})
     ],
-    sourceMap: true,
+    sourceMap: false,
     strict: true
 };
