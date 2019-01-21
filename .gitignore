@@ -1,5 +1,6 @@
 # Build and Release Folders
 node_modules/
+dist/
 
 # Other files and folders
 .settings/
@@ -10,4 +11,7 @@ node_modules/
 *.air
 *.ipa
 *.apk
-
+.DS_Store
+.zip
+.rar
+/*.log

@@ -1,0 +1,6 @@
+
+.mo,.mobile{display: none;}
+@media(max-width: 979px) {
+  .computer{display: none;}
+  .mo,.mobile{display: block;}
+}
