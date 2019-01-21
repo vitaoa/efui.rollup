@@ -4,7 +4,7 @@
     var _searchKeywords = '';
     var request = new XMLHttpRequest();
     request.onload = levelRequestListener;
-    request.open("get", "/app/data/route.json", true);
+    request.open("get", "data/route.json", true);
     request.send();
     function levelRequestListener() {
         _searchKeywords = JSON.parse(this.responseText);
