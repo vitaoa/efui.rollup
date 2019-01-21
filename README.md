@@ -1,5 +1,5 @@
 ## rollup&Gulp4
-###gulp 4.0 升级指南
+### gulp 4.0 升级指南
 1. gulp.task 移除了三参数语法，现在不能使用数组来指定一个任务的依赖。gulp 4.0 加入了 gulp.series 和 gulp.parallel 来实现任务的串行化和并行化。
 
     gulp.series 用于串行（顺序）执行
