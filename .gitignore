@@ -1,6 +1,11 @@
 # Build and Release Folders
 node_modules/
 dist/
+css/
+js/
+images/
+pages/
+index.html
 
 # Other files and folders
 .settings/
