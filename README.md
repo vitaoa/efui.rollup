@@ -1,53 +1,63 @@
-## rollup&Gulp4
+
 ### gulp 4.0 升级指南
-1. gulp.task 移除了三参数语法，现在不能使用数组来指定一个任务的依赖。gulp 4.0 加入了 gulp.series 和 gulp.parallel 来实现任务的串行化和并行化。
+1.  gulp.task 移除了三参数语法，现在不能使用数组来指定一个任务的依赖。    
+    指定一个任务的依赖:    
+            
+        gulp.task('my-tasks', gulp.series('a', 'b', 'c', function() {
+          // Do something after a, b, and c are finished.
+        }));
 
+    gulp 4.0 加入了 gulp.series 和 gulp.parallel 来实现任务的串行化和并行化。
     gulp.series 用于串行（顺序）执行
-    gulp.parallel 用于并行执行
+    gulp.parallel 用于并行执行    
     
+    任务函数中，如果任务是同步的，需要使用 done 回调。这样做是为了让 gulp 知道你的任务何时完成。类似这样：                
 
-    任务函数中，如果任务是同步的，需要使用 done 回调。这样做是为了让 gulp 知道你的任务何时完成。类似这样：                 
-    `gulp.task('a', function(done){
-        done()
-    })`
-2. gulp.dest 添加了 dirMode 参数，可以指定生成文件夹的模式。
-3. gulp.src 添加 since 选项，只匹配在某个固定时间后有修改的文件，这可以用来做增量构建
+        gulp.task('a', function(done){
+            done()
+        })
+        
+1. gulp.dest 添加了 dirMode 参数，可以指定生成文件夹的模式。
+1. gulp.src 添加 since 选项，只匹配在某个固定时间后有修改的文件，这可以用来做增量构建
 
 
-#### 终端命令参数
-    // rollup main.js -o index.js -f iife
-    // -f 指定输出文件类型：cjs(nodejs使用), iife(浏览器使用), umd(浏览器与nodejs同时使用)
-    // -o 输出文件名
-    // --watch rollup-watch插件，监听源文件是否有改动，如果有改动，重新打包
-    // -c 指定配置文件，默认rollup.config.js
+### rollup
+1. 终端命令参数
 
-#### 配置文件rollup.config.js
-    export default {
-        input: 'app/scripts/module/rollup.js',
-        output: {
-            file: 'dist/js/rollup.js', // 打包后的路径
-            format: 'iife',// 生成包的格式规范 包括 amd umd cjs es iife
-            name: 'MyBundle',// 打包后的包名 iife / umd包 // -> var MyBundle = (function () {...
-        },
-        externals:[],
-        plugins:[],
-        globals: { 
-            jquery: '$'
-        },
-        sourceMap: 'inline',
-        strict: true
-    };
-    . input — 项目入口
-    . output — 项目输出配置    
-    . format — Rollup支持多种输出格式。因为我们是要在浏览器中使用，需要使用立即执行函数表达式(IIFE)  
-    . externals — 外部引用 防止将某些 import 的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖， 一般用于library开发
-    . plugins — 插件项
-    . globals — 全局模块 提供将外部模块ID转换为全局模块的功能
-    . sourceMap — 调试时sourcemap是非常有用的。true: 会创建单独的 sourcemap 文件；inline: sourcemap将作为数据URI附加到生成的output文件中。
-    . strict — 'use strict';严格模式，默认开启
+        // rollup main.js -o index.js -f iife
+        // -f 指定输出文件类型：cjs(nodejs使用), iife(浏览器使用), umd(浏览器与nodejs同时使用)
+        // -o 输出文件名
+        // --watch rollup-watch插件，监听源文件是否有改动，如果有改动，重新打包
+        // -c 指定配置文件，默认rollup.config.js
+
+1. 配置文件rollup.config.js
+
+        export default {
+            input: 'app/scripts/module/rollup.js',
+            output: {
+                file: 'dist/js/rollup.js', // 打包后的路径
+                format: 'iife',// 生成包的格式规范 包括 amd umd cjs es iife
+                name: 'MyBundle',// 打包后的包名 iife / umd包 // -> var MyBundle = (function () {...
+            },
+            externals:[],
+            plugins:[],
+            globals: { 
+                jquery: '$'
+            },
+            sourceMap: 'inline',
+            strict: true
+        };
+        . input — 项目入口
+        . output — 项目输出配置    
+        . format — Rollup支持多种输出格式。因为我们是要在浏览器中使用，需要使用立即执行函数表达式(IIFE)  
+        . externals — 外部引用 防止将某些 import 的包(package)打包到 bundle 中，而是在运行时(runtime)再去从外部获取这些扩展依赖， 一般用于library开发
+        . plugins — 插件项
+        . globals — 全局模块 提供将外部模块ID转换为全局模块的功能
+        . sourceMap — 调试时sourcemap是非常有用的。true: 会创建单独的 sourcemap 文件；inline: sourcemap将作为数据URI附加到生成的output文件中。
+        . strict — 'use strict';严格模式，默认开启
     
     
-#### SourceMap 使用教程    
+### SourceMap 使用教程    
 
     SourceMap：一个存储源代码与编译代码对应位置映射的信息文件    
     在前端的工作中主要是用来解决以下三个方面出现的 debug 问题：
@@ -56,8 +66,8 @@
     c. 利用 webpack/rollup 等打包工具进行多文件合并后
     
     
-#### plugins 插件
-1. **scss**: npm i -D node-sass rollup-plugin-postcss autoprefixer cssnano
+### rollup 插件
+1. **scss**: npm i -D node-sass rollup-plugin-postcss autoprefixer cssnano 
 
         import postcss from 'rollup-plugin-postcss';
         import autoprefixer from 'autoprefixer';
@@ -69,39 +79,11 @@
                 extract: 'dist/css/bundle.css' // 输出路径
             })
         ]
-        
-        
-        
-## gulp插件：
-1. **TypeScript**:       
-    
-        安装：先全局安装TypeScript和Gulp。
-        插件：gulp-typescript是TypeScript的一个Gulp插件。    
-        npm install --save-dev typescript gulp-typescript   
-        const ts = require('gulp-typescript');
-        const tsProject = ts.createProject("tsconfig.json"); 
-        gulp.task('typeScript', function () {
-            return gulp.src(fileinclude_DIR + CUR_PATH + '**/*.ts',{base: fileinclude_DIR})
-                .pipe(tsProject())
-                .js.pipe(gulp.dest(DIST_DIR));
-        });
-        gulp.task('watchTS', function() {
-            gulp.watch(fileinclude_DIR + CUR_PATH + '**/*.ts', gulp.series('typeScript'));
-        });    
-    
-    **tsconfig.json 文件中参数的解释：**
-   
-        target：编译之后生成的JavaScript文件需要遵循的标准。有三个候选项：es3、es5、es2015。
-        noImplicitAny：为false时，如果编译器无法根据变量的使用来判断类型时，将用any类型代替。为true时，将进行强类型检查，无法推断类型时，提示错误。
-        module：遵循的JavaScript模块规范。主要的候选项有：commonjs、AMD和es2015。为了后面与node.js保持一致，我们这里选用commonjs。
-        removeComments：编译生成的JavaScript文件是否移除注释。
-        sourceMap：编译时是否生成对应的source map文件。这个文件主要用于前端调试。当前端js文件被压缩引用后，出错时可借助同名的source map文件查找源文件中错误位置。
-        outDir：编译输出JavaScript文件存放的文件夹。
-        include、exclude：编译时需要包含/剔除的文件夹。
-    
-    **TypeScript与Rollup集成**
-    
-        安装插件：npm install --save-dev rollup-plugin-typescript tslib
+        缺点：scss引用进来（@import）的不方便同时监听修改，改用gulp-sass处理样式文件。     
+                
+1. **TypeScript**: 
+        安装：npm i -D rollup-plugin-typescript typescript tslib
+        TypeScript与Rollup集成：
         在配置文件rollup.config.js里写入：
         import typescript from 'rollup-plugin-typescript';
         export default {
@@ -110,10 +92,58 @@
           ]
         }
         引用ts文件：import { fnTimeCountDown } from '../ts/CountDown.ts';
-    
+        
+        
+### gulp插件：       
 1. **file-include**:   
 
-        安装插件：gulp-file-include。    
-        npm install --save-dev gulp-file-include
-        const fileinclude = require('gulp-file-include');    
+        安装插件：npm install --save-dev gulp-file-include
+        const fileinclude = require('gulp-file-include');            
+        gulp.task('fileInclude',function(done) {
+            gulp.src([fileinclude_DIR + 'views/**/*.html','!' + fileinclude_DIR + 'views/**/index.html','!' + fileinclude_DIR + 'views/includes/**/*.html'])
+                .pipe(fileinclude({
+                    prefix: '@@',
+                    basepath: '@file',
+                    indent:true,
+                    context: paramHtml
+                }))
+                .pipe(gulp.dest(DIST_DIR + 'pages/'));
+            done();
+        });
+        
+1. **gulp-sass**:   
+
+        安装插件：npm install --save-dev gulp-sass
+        const sass = require('gulp-sass');
+        gulp.task('sass', function(){
+        	return gulp.src(fileinclude_DIR + 'styles/' + NAME + '.scss')
+        		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+        		.pipe(gulp.dest(DIST_DIR + 'css'))
+        });
     
+1. **安装Browsersync实时刷新浏览器**: npm install --save-dev browser-sync
+
+        BrowserSync 将启动一个小型服务器，并提供一个URL来查看网站。
+        启动 BrowserSync：(在 gulpfile.js 中创建新任务)        
+        const browserSync = require('browser-sync');
+        gulp.task('server',function() {
+            let files = [
+                fileinclude_DIR + 'views/**/*.*',
+                fileinclude_DIR + 'scripts/**/*.*',
+                fileinclude_DIR + 'styles/**/*.*'
+            ];
+            browserSync.init({
+                files:files,
+                host: "172.30.10.52",
+                port:'9999',
+                server: {
+                    baseDir:'./',  // 设置服务器的根目录
+                    index:'pages/plugin.html' // 指定默认打开的文件
+                },
+                open:false
+            });
+        
+            // gulp.watch(['*.*']).on('change', browserSync.reload);
+        });
+ 
+        

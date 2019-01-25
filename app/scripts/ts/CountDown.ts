@@ -1,3 +1,6 @@
+/**
+ * 倒计时插件-CountDown
+ */
 
 export function fnTimeCountDown(dom,time){
 

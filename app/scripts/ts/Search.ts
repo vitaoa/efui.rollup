@@ -15,7 +15,7 @@ function levelRequestListener () {
 /*search*/
 export function Search(dom){
     request.onload = levelRequestListener;
-    request.open("get", "/app/data/route.json", false);//同步
+    request.open("get", "js/data/route.json", false);//同步
     request.send();
 
     let _searchVal = dom as HTMLInputElement;
