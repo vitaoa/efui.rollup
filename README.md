@@ -170,4 +170,29 @@
             // gulp.watch(['*.*']).on('change', browserSync.reload);
         });
  
+    
+### Git 相关操作
+1. 合并指定文件到另一个分支：
+    
+    1. 合并单个commit，用git cherry-pick命令：
+    
+            eg:将master分支的commit b169a68合并到gh-pages分支
+            1: 先切换到分支gh-pages：git checkout gh-pages
+            2: 合并commit b169a68：git cherry-pick b169a68
+            现在b169a68就被合并到gh-pages分支，并在gh-pages中添加了commit（作为一个新的commit）。
+        
+    1. 合并一系列相连的commits，用git rebase更适合
+            
+            eg:合并feature分支的commit 76cada ~62ecb3 到master分支
+            1: git checkout featuregit 
+            2: git checkout -b newbranch 62ecb3
+            3: git rebase --onto master 76cada^ 
+        
+    1. 合并单个文件：
+    
+            eg:将dev分支上 f 文件追加补丁到master分支上 f文件
+            1: git checkout dev
+            2: git checkout --patch master f.txt
+
+
         

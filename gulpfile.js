@@ -13,12 +13,14 @@ const DIST_DIR = './';   // 文件输出目录，根目录
 let paramHtmlIndex={
     rootUrl:'/bag/en/',
     timestamp:[new Date().getTime(),Math.random().toFixed(0)],
-    styles: ['css/efui.css']
+    styles: ['css/efui.css'],
+    js: ['js/lib/base.js','js/rollup.js']
 }
 let paramHtml={
     rootUrl:'/bag/en/',
     timestamp:[new Date().getTime(),Math.random().toFixed(0)],
-    styles: ['../css/efui.css']
+    styles: ['../css/efui.css'],
+    js: ['../js/lib/base.js','../js/rollup.js']
 }
 gulp.task('fileIncludeIndex',function(done) {
     gulp.src(fileinclude_DIR + 'views/**/index.html')

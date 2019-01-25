@@ -1,6 +1,6 @@
 <!--footer-->
-<script src="/js/lib/base.js"></script>
-<script src="/js/rollup.js"></script>
+@@if(js){@@for (var i = 0; i < js.length; i++) {<script type="text/javascript" src="`+js[i]+`" ></script>
+}}
 <script>
     window.onload = function(){
         if(document.getElementById('pageLoader')){
