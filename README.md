@@ -82,6 +82,7 @@
         缺点：scss引用进来（@import）的不方便同时监听修改，改用gulp-sass处理样式文件。     
                 
 1. **TypeScript**: 
+
         安装：npm i -D rollup-plugin-typescript typescript tslib
         TypeScript与Rollup集成：
         在配置文件rollup.config.js里写入：
@@ -95,7 +96,7 @@
         
         
 ### gulp插件：       
-1. **file-include**:   
+1. **gulp-file-include**:   
 
         安装插件：npm install --save-dev gulp-file-include
         const fileinclude = require('gulp-file-include');            
@@ -121,6 +122,29 @@
         		.pipe(gulp.dest(DIST_DIR + 'css'))
         });
     
+1. **gulp-rollup**:
+    
+        安装：npm i -D gulp-rollup
+        删除rollup.config.js，并把配置文件rollup.config.js里面的都改写到gulpfile.js文件里面：
+        const typescript = require('rollup-plugin-typescript');
+        gulp.task('bundle', function() {
+            return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:fileinclude_DIR + 'scripts/module/'})
+                .pipe(rollup({
+                    input: fileinclude_DIR + 'scripts/module/rollup.js',
+                    output: {
+                        format: 'iife',
+                        name: 'MyBundle',
+                    },
+                    plugins: [
+                        typescript({lib: ["es5", "es6", "dom"], target: "es5"}),
+                    ],
+                }))
+                .pipe(gulp.dest(DIST_DIR + 'js'));
+        });
+
+        
+        
+### npm插件：  
 1. **安装Browsersync实时刷新浏览器**: npm install --save-dev browser-sync
 
         BrowserSync 将启动一个小型服务器，并提供一个URL来查看网站。

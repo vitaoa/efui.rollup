@@ -1,11 +1,12 @@
 const gulp = require('gulp');
 const fileinclude = require('gulp-file-include');
 const sass = require('gulp-sass');
+const rollup = require('gulp-rollup');
+const typescript = require('rollup-plugin-typescript');
 
 //---------------------------------------参数声明----------------------------//
 const fileinclude_DIR = './app/';   // 源文件目录
 const DIST_DIR = './';   // 文件输出目录，根目录
-const SASS_DIR =   './scss/'; // 样式预处理文件目录
 
 // html编译
 //---------------------------------------file-include----------------------------//
@@ -42,9 +43,13 @@ gulp.task('fileInclude',function(done) {
     done();
 });
 // copy assets
-gulp.task('copy:datas',function (done) {
+gulp.task('copy:datas',function () {
     return gulp.src(fileinclude_DIR + 'scripts/data/**/*.json')
         .pipe(gulp.dest(DIST_DIR + 'js/data/'));
+});
+gulp.task('copy:js',function () {
+    return gulp.src(fileinclude_DIR + 'scripts/lib/**/*.js')
+        .pipe(gulp.dest(DIST_DIR + 'js/lib/'));
 });
 //---------------------------------------file-include----------------------------//
 
@@ -59,10 +64,28 @@ gulp.task('sass', function(){
 });
 //---------------------------------------gulp-sass----------------------------//
 
-gulp.task('package',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','sass'));
+// rollup
+//---------------------------------------gulp-rollup----------------------------//
+gulp.task('rollup:js', function() {
+    return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:fileinclude_DIR + 'scripts/module/'})
+        .pipe(rollup({
+            input: fileinclude_DIR + 'scripts/module/rollup.js',
+            output: {
+                format: 'iife',
+                name: 'MyBundle',
+            },
+            plugins: [
+                typescript({lib: ["es5", "es6", "dom"], target: "es5"}),
+            ],
+        }))
+        .pipe(gulp.dest(DIST_DIR + 'js'));
+});
+//---------------------------------------gulp-rollup----------------------------//
+
+// gulp.task('package',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass'));
 
 const browserSync = require('browser-sync');
-gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','sass',function() {
+gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass',function() {
     let files = [
         fileinclude_DIR + 'views/**/*.*',
         fileinclude_DIR + 'scripts/**/*.*',
@@ -80,6 +103,6 @@ gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','s
     });
 
     gulp.watch(fileinclude_DIR + 'views/**/*.*',gulp.parallel('fileInclude', 'fileIncludeIndex'));
-    gulp.watch(fileinclude_DIR + 'scripts/data/**/*.json',gulp.series('copy:datas'));
+    gulp.watch(fileinclude_DIR + 'scripts/**/*.*',gulp.parallel('copy:datas','copy:js','rollup:js'));
     gulp.watch(fileinclude_DIR + 'styles/**/*.*',gulp.series('sass'));
 }));

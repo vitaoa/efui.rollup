@@ -21,6 +21,7 @@
     "browser-sync": "^2.26.3",
     "gulp": "^4.0.0",
     "gulp-file-include": "^2.0.1",
+    "gulp-rollup": "^2.16.2",
     "gulp-sass": "^4.0.2",
     "rollup-plugin-typescript": "^1.0.0",
     "tslib": "^1.9.3",
