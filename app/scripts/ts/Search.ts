@@ -1,15 +1,23 @@
+
+
 let _searchKeywords:any='';
 let request = new XMLHttpRequest();
-request.onload = levelRequestListener;
-request.open("get", "/app/data/route.json", true);
-request.send();
-
 function levelRequestListener () {
-    _searchKeywords = JSON.parse(this.responseText);
+    if (this.readyState === 4) {
+        if (this.status === 200) {
+            _searchKeywords = JSON.parse(this.responseText);
+        } else {
+            console.error(this.statusText);
+        }
+    }
 }
 
 /*search*/
 export function Search(dom){
+    request.onload = levelRequestListener;
+    request.open("get", "js/data/route.json", false);//同步
+    request.send();
+
     let _searchVal = dom as HTMLInputElement;
     let _url = JsonQuery(_searchKeywords,{"keywords":_searchVal.value});
     let _searchWrap = document.getElementById('searchResult');

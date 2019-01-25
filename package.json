@@ -5,11 +5,12 @@
   "main": "rollup.config.js",
   "scripts": {
     "rollup": "rollup -c",
-    "dev": "rollup -c --watch"
+    "dev": "rollup -c -w"
   },
   "keywords": [
     "rollup",
-    "javascript"
+    "typescript",
+    "gulp"
   ],
   "license": "ISC",
   "bugs": {
@@ -17,13 +18,11 @@
   },
   "homepage": "https://github.com/vitaoa/efui.rollup#readme",
   "devDependencies": {
-    "autoprefixer": "^9.3.1",
-    "cssnano": "^4.1.7",
+    "browser-sync": "^2.26.3",
     "gulp": "^4.0.0",
     "gulp-file-include": "^2.0.1",
-    "gulp-typescript": "^5.0.0",
-    "node-sass": "^4.10.0",
-    "rollup-plugin-postcss": "^1.6.2",
+    "gulp-rollup": "^2.16.2",
+    "gulp-sass": "^4.0.2",
     "rollup-plugin-typescript": "^1.0.0",
     "tslib": "^1.9.3",
     "typescript": "^3.2.2"

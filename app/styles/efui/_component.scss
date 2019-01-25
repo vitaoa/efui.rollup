@@ -131,14 +131,27 @@ $navbar-padding-vertical: (($navbar-height - $line-height-computed) / 2) !defaul
 
 
 /* ============ mlist ============ */
-.mlist {position: relative;padding-left: 90px;border-top: 1px solid #eee;border-bottom: 2px solid #eee;margin-bottom: 50px;
+.mlist {position: relative;padding-left: 82px;border-top: 1px solid #eee;border-bottom: 2px solid #eee;margin-bottom: 50px;
   ol{@include style-bullets(decimal,none);}
   .mtit {background: #F5F5F5;padding: 10px 0 10px 20px;font-size: 16px;position: absolute;left: 0;top: 0;bottom: 0;
     span {background: #2F486F;display: inline-block;padding: 8px 10px 8px 20px;color: #fff;}
   }
-  .mcon {padding: 10px 10px 10px 20px;color: #888;line-height: 30px;min-height: 50px;}
+  .mcon {padding: 10px 10px 10px 20px;color: #888;line-height: 30px;min-height: 39px;position: relative;
+    & > ol{position: absolute;top:10px;left:0;right:0;height:28px;padding:5px 0;background: #e7f0fd;overflow:hidden;transition: all .3s ease-in-out;
+      li{margin-left: 24px;}
+    }
+  }
   a {color: #2F486F;}
+  .current{
+    a{font-weight: bold;text-decoration: underline;}
+  }
 }
+.active{
+  .mcon{
+    & > ol{height:100%;background: #e7f0fd;}
+  }
+}
+
 
 .mswitch{
   & + .mswitch {display: none;}
