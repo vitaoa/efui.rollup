@@ -3,6 +3,7 @@ const fileinclude = require('gulp-file-include');
 const sass = require('gulp-sass');
 const rollup = require('gulp-rollup');
 const typescript = require('rollup-plugin-typescript');
+const base64 = require('gulp-base64');
 
 //---------------------------------------参数声明----------------------------//
 const fileinclude_DIR = './app/';   // 源文件目录
@@ -55,17 +56,6 @@ gulp.task('copy:js',function () {
 });
 //---------------------------------------file-include----------------------------//
 
-
-// scss编译
-//---------------------------------------gulp-sass----------------------------//
-const NAME = 'efui';
-gulp.task('sass', function(){
-	return gulp.src(fileinclude_DIR + 'styles/' + NAME + '.scss')
-		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
-		.pipe(gulp.dest(DIST_DIR + 'css'))
-});
-//---------------------------------------gulp-sass----------------------------//
-
 // rollup
 //---------------------------------------gulp-rollup----------------------------//
 gulp.task('rollup:js', function() {
@@ -84,10 +74,34 @@ gulp.task('rollup:js', function() {
 });
 //---------------------------------------gulp-rollup----------------------------//
 
+// scss编译
+//---------------------------------------gulp-sass----------------------------//
+const NAME = 'efui';
+gulp.task('sass', function(){
+	return gulp.src(fileinclude_DIR + 'styles/' + NAME + '.scss')
+		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+		.pipe(gulp.dest(DIST_DIR + 'css'))
+});
+//---------------------------------------gulp-sass----------------------------//
+
+// base64
+//---------------------------------------gulp-base64----------------------------//
+gulp.task('sass:base64',gulp.series('sass',function () {
+    return gulp.src(DIST_DIR + 'css/' + NAME + '.css')
+        .pipe(base64({
+            extensions: ['png','svg',/\.jpg#datauri$/i],
+            include:    ['/base64/'],
+            maxImageSize:100*1024, // bytes
+            debug: true
+        }))
+        .pipe(gulp.dest(DIST_DIR + 'css'));
+}));
+//---------------------------------------gulp-base64----------------------------//
+
 // gulp.task('package',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass'));
 
 const browserSync = require('browser-sync');
-gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass',function() {
+gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass:base64',function() {
     let files = [
         fileinclude_DIR + 'views/**/*.*',
         fileinclude_DIR + 'scripts/**/*.*',
