@@ -216,9 +216,10 @@
     1. 合并一系列相连的commits，用git rebase更适合
             
             eg:合并feature分支的commit 76cada ~62ecb3 到master分支
-            1: git checkout featuregit 
-            2: git checkout -b newbranch 62ecb3
-            3: git rebase --onto master 76cada^ 
+            1: git checkout -b newbranch 62ecb3
+            2: git rebase --onto master 76cada^ 
+            3: git checkout master
+            4：git merge newbranch
         
     1. 合并单个文件：
     
