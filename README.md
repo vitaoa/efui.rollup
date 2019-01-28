@@ -111,17 +111,7 @@
                 .pipe(gulp.dest(DIST_DIR + 'pages/'));
             done();
         });
-        
-1. **gulp-sass**:   
-
-        安装插件：npm install --save-dev gulp-sass
-        const sass = require('gulp-sass');
-        gulp.task('sass', function(){
-        	return gulp.src(fileinclude_DIR + 'styles/' + NAME + '.scss')
-        		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
-        		.pipe(gulp.dest(DIST_DIR + 'css'))
-        });
-    
+  
 1. **gulp-rollup**:
     
         安装：npm i -D gulp-rollup
@@ -141,7 +131,31 @@
                 }))
                 .pipe(gulp.dest(DIST_DIR + 'js'));
         });
+              
+1. **gulp-sass**:   
 
+        安装插件：npm install --save-dev gulp-sass
+        const sass = require('gulp-sass');
+        gulp.task('sass', function(){
+        	return gulp.src(fileinclude_DIR + 'styles/' + NAME + '.scss')
+        		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+        		.pipe(gulp.dest(DIST_DIR + 'css'))
+        });    
+        
+1. **gulp-base64**
+    
+        安装：npm i -D gulp-base64
+        const base64 = require('gulp-base64');
+        gulp.task('sass:base64',gulp.series('sass',function () {
+            return gulp.src(DIST_DIR + 'css/' + NAME + '.css')
+                .pipe(base64({
+                    extensions: ['png','svg',/\.jpg#datauri$/i],
+                    include:    ['/base64/'],//(插件需优化：exclude改为include)
+                    maxImageSize:100*1024, // bytes
+                    debug: true
+                }))
+                .pipe(gulp.dest(DIST_DIR + 'css'));
+        }));
         
         
 ### npm插件：  
