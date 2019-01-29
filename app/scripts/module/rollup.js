@@ -4,6 +4,8 @@
 
 import { Search } from '../ts/Search.ts';
 import { fnTimeCountDown } from '../ts/CountDown.ts';
+import { carouselLeftRight } from '../ts/Carousel.ts';
+
 
 // /*base*////////////////////////////////////////
 let alink = getElementsByClassName('navbar-toggle','button');
@@ -12,7 +14,7 @@ ForEach(function (e) {
 },alink);
 
 /*目录切换*/
-let menutit = getElementsByClassName('mtit','div','mlist');
+let menutit = getElementsByClassName('arrow-group','div','mlist');
 ForEach(function (e) {
     toggleClass(e,true,'active');
 },menutit);
@@ -52,7 +54,20 @@ if(!!document.getElementById('searchVal')) {
 * */
 let _countdown = document.getElementById("fnTimeCountDown");
 if(_countdown){
-    fnTimeCountDown("fnTimeCountDown","2019/1/30 23:59:59");
+    fnTimeCountDown("fnTimeCountDown","2019/2/30 23:59:59");
+}
+/*轮播图：
+ * @id:fnCarousel
+ * */
+let _carousel = document.getElementById("fnCarousel");
+if(_carousel){
+    carouselLeftRight("fnCarousel",{
+        cArr: ["li-3","li-2","li-1"],
+        prev:'arrow-prev',
+        next:'arrow-next',
+        index : 0,
+        speed:3000
+    });
 }
 
 

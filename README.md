@@ -157,6 +157,24 @@
                 .pipe(gulp.dest(DIST_DIR + 'css'));
         }));
         
+1. **gulp-tinypng-nokey**
+    
+        安装：npm i -D gulp-tinypng-nokey
+        const tinypng_nokey = require('gulp-tinypng-nokey');
+        gulp.task('images:tinypng', gulp.series('copy:images',function() {
+            return gulp.src(DIST_DIR + 'images/*.{png,jpg,gif,jpeg}')
+                .pipe(tinypng_nokey()).on('error', function(err) {
+                    console.error(err.message);
+                })
+                .pipe(gulp.dest(DIST_DIR + "images/"));
+        }));
+
+1. **gulp.spritesmith**
+    
+        安装：npm i -D gulp.spritesmith
+        const glob = require("glob");
+        const path = require("path");
+        const spritesmith = require('gulp.spritesmith');(插件需优化：没有rem)
         
 ### npm插件：  
 1. **安装Browsersync实时刷新浏览器**: npm install --save-dev browser-sync

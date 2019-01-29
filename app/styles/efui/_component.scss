@@ -131,15 +131,30 @@ $navbar-padding-vertical: (($navbar-height - $line-height-computed) / 2) !defaul
 
 
 /* ============ mlist ============ */
-.mlist {position: relative;padding-left: 82px;border-top: 1px solid #eee;border-bottom: 2px solid #eee;margin-bottom: 50px;
+$border:10px;
+.mlist {position: relative;padding-left: 82px;border-top: 1px solid #eee;border-bottom: 2px solid #eee;margin-bottom: 50px;height:58px;
   ol{@include style-bullets(decimal,none);}
   .mtit {background: #F5F5F5;padding: 10px 0 10px 20px;font-size: 16px;position: absolute;left: 0;top: 0;bottom: 0;
     span {background: #2F486F;display: inline-block;padding: 8px 10px 8px 20px;color: #fff;}
   }
-  .mcon {padding: 10px 10px 10px 20px;color: #888;line-height: 30px;min-height: 39px;position: relative;
-    & > ol{position: absolute;top:10px;left:0;right:0;height:28px;padding:5px 0;background: #e7f0fd;overflow:hidden;transition: all .3s ease-in-out;
+  .mcon {margin: 10px 0 10px 0;color: #888;line-height: 30px;max-height:38px;overflow:hidden;position: absolute;left:82px;right: 0;top: 0;transition: all .6s ease;
+    & > ol{padding:5px 0;background: #e7f0fd;
       li{margin-left: 24px;}
     }
+  }
+  .arrow-group{position: absolute;right:0;top:0;display: block;width:$border*4;height:$border*1.5;padding-top:$border*2.2;text-align: center;@include prefixer(transition,all .9s ease,$prefixes);
+    i{display: block;width:$border/5*1.5;height:$border/5*1.5;background: #111f36;position:absolute;left:50%;margin-left:-$border/7.5/2;border-radius: 50%;
+      &.dot1{top:15%;@include prefixer(transform,scale(.4),$prefixes);@include prefixer(animation,anim-dot1 .8s infinite steps(1),$prefixes);}
+      &.dot2{top:30%;@include prefixer(transform,scale(.6),$prefixes);@include prefixer(animation,anim-dot2 .8s infinite steps(1),$prefixes);}
+      &.dot3{top:45%;@include prefixer(animation,anim-dot3 .8s infinite steps(1),$prefixes);}
+
+    }
+    .arrow-d{@include inline-block;width:$border*2;height:$border*1.5;}
+  }
+  .arrow-d{
+    @include prefixer(animation,arrowUpDown .8s linear infinite,$prefixes);
+    &:before{content: "";display:block;@include triangle-arrow(bottom,$border,#111f36);position: absolute;left:0;top:1px;}
+    &:after{content: "";display:block;@include triangle-arrow(bottom,$border,#e7f0fd);position: absolute;left:0;top:0;}
   }
   a {color: #2F486F;}
   .current{
@@ -147,8 +162,9 @@ $navbar-padding-vertical: (($navbar-height - $line-height-computed) / 2) !defaul
   }
 }
 .active{
-  .mcon{
-    & > ol{height:100%;background: #e7f0fd;}
+  .arrow-group{@include prefixer(transform,rotate(180deg),$prefixes);top:100%;margin-top:-40px;}
+  &.mcon{max-height:320px;
+    & > ol{background: #e7f0fd;}
   }
 }
 
@@ -178,6 +194,7 @@ $navbar-padding-vertical: (($navbar-height - $line-height-computed) / 2) !defaul
   .container {padding-right: 15px;padding-left: 15px;}
   .navbar-header {display: block;width: 100%;}
 }
+.example-title{padding: 10px 0;}
 
 /* ============ input ============ */
 .i-text {@include inline-block;@include placeholder(#999);padding: 6px 12px;font-size: 14px;line-height: 1.4;color: #333;background-color: #fff;background-image: none;border: 1px solid #ddd;

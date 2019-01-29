@@ -78,3 +78,41 @@
     }
   }
 }
+
+
+@mixin triangle-arrow(
+  $direction,
+  $border,
+  $color
+){
+  @if not index("top" "left" "right" "bottom",$direction){
+    @error "Direction must be `top`, `left`, `right`, `bottom`";
+  } @else if not _is-color($color) {
+    @error "`#{$color}` is not a valid color for the `$color` argument in " +
+           "the `triangle` mixin.";
+  } @else {
+    width: 0;
+    height: 0;
+    @if $direction == "top" {
+      border-top: $border transparent dashed;
+      border-left: $border transparent dashed;
+      border-right: $border transparent dashed;
+      border-bottom: $border $color solid;
+    } @else if $direction == "left" {
+      border-top:$border transparent dashed;
+      border-left:$border transparent dashed;
+      border-bottom:$border transparent dashed;
+      border-right:$border $color solid;
+    } @else if $direction == "right" {
+      border-top:$border transparent dashed;
+      border-right:$border transparent dashed;
+      border-bottom:$border transparent dashed;
+      border-left:$border $color solid;
+    } @else if $direction == "bottom" {
+      border-bottom: $border transparent dashed;
+      border-left: $border transparent dashed;
+      border-right: $border transparent dashed;
+      border-top: $border $color solid;
+    }
+  }
+}

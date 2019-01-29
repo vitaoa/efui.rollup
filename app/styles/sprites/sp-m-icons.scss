@@ -1,0 +1,17 @@
+/* ============ sprites ============ */
+.arrow-next{ width: 18px;height: 48px;background-image: url('../images/sp_m_icons.png?=945');background-position:0px 0px;background-size: 62px 776px;background-repeat:no-repeat; }
+.arrow-nexth{ width: 18px;height: 48px;background-image: url('../images/sp_m_icons.png?=945');background-position:0px -58px;background-size: 62px 776px;background-repeat:no-repeat; }
+.arrow-prev{ width: 18px;height: 48px;background-image: url('../images/sp_m_icons.png?=945');background-position:0px -116px;background-size: 62px 776px;background-repeat:no-repeat; }
+.arrow-prevh{ width: 18px;height: 48px;background-image: url('../images/sp_m_icons.png?=945');background-position:0px -174px;background-size: 62px 776px;background-repeat:no-repeat; }
+.shadow-line-l{ width: 62px;height: 267px;background-image: url('../images/sp_m_icons.png?=945');background-position:0px -232px;background-size: 62px 776px;background-repeat:no-repeat; }
+.shadow-line-r{ width: 62px;height: 267px;background-image: url('../images/sp_m_icons.png?=945');background-position:0px -509px;background-size: 62px 776px;background-repeat:no-repeat; }
+
+/* ============ sprites rem ============ */
+@media(max-width:750px){
+.arrow-next{ background-position:0rem 0rem;background-size: 0.62rem 7.76rem;width: 0.18rem;height: 0.48rem; }
+.arrow-nexth{ background-position:0rem -0.58rem;background-size: 0.62rem 7.76rem;width: 0.18rem;height: 0.48rem; }
+.arrow-prev{ background-position:0rem -1.16rem;background-size: 0.62rem 7.76rem;width: 0.18rem;height: 0.48rem; }
+.arrow-prevh{ background-position:0rem -1.74rem;background-size: 0.62rem 7.76rem;width: 0.18rem;height: 0.48rem; }
+.shadow-line-l{ background-position:0rem -2.32rem;background-size: 0.62rem 7.76rem;width: 0.62rem;height: 2.67rem; }
+.shadow-line-r{ background-position:0rem -5.09rem;background-size: 0.62rem 7.76rem;width: 0.62rem;height: 2.67rem; }
+}

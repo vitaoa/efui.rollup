@@ -24,6 +24,8 @@
     "gulp-file-include": "^2.0.1",
     "gulp-rollup": "^2.16.2",
     "gulp-sass": "^4.0.2",
+    "gulp-tinypng-nokey": "^1.1.0",
+    "gulp.spritesmith": "^6.9.0",
     "rollup-plugin-typescript": "^1.0.0",
     "tslib": "^1.9.3",
     "typescript": "^3.2.2"
