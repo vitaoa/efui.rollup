@@ -107,6 +107,70 @@ function fnTimeCountDown(dom, time) {
 }
 
 /**
+ * 轮播插件-CAROUSEL
+ */
+function carouselLeftRight(dom, options) {
+    var option = Object.assign({}, options);
+    var cArr = option.cArr;
+    var index = option.index;
+    var speed = option.speed;
+    var arrLen = cArr.length;
+    var _obj = getElementsByClassName(/.*/, 'li', dom);
+    //上一张
+    function previmg() {
+        cArr.unshift(cArr[arrLen - 1]);
+        cArr.pop();
+        ForEach(function (e, i) {
+            removeClass(e, e.className);
+            addClass(e, cArr[i]);
+        }, _obj);
+        index--;
+        if (index < 0) {
+            index = arrLen - 1;
+        }
+    }
+    //下一张
+    function nextimg() {
+        cArr.push(cArr[0]);
+        cArr.shift();
+        var _obj = getElementsByClassName(/.*/, 'li', dom);
+        ForEach(function (e, i) {
+            removeClass(e, e.className);
+            addClass(e, cArr[i]);
+        }, _obj);
+        index++;
+        if (index >= arrLen) {
+            index = 0;
+        }
+    }
+    getElementsByClassName(option.prev, '*', dom)[0].onclick = function () {
+        previmg();
+    };
+    getElementsByClassName(option.next, '*', dom)[0].onclick = function () {
+        nextimg();
+    };
+    var timer = setInterval(nextimg, speed);
+    ForEach(function (e) {
+        addEventHandle(e, 'click', function () {
+            var _index = e.className.replace(/.*li-(\d)/, '$1') * 2;
+            if (_obj.length + 1 > _index) {
+                previmg();
+            }
+            else if (_obj.length + 1 < _index) {
+                nextimg();
+            }
+            return false;
+        });
+        addEventHandle(e, 'mouseover', function () {
+            clearInterval(timer);
+        });
+        addEventHandle(e, 'mouseleave', function () {
+            timer = setInterval(nextimg, speed);
+        });
+    }, _obj);
+}
+
+/**
  * Created by GA on 2018/11/14.
  */
 
@@ -117,7 +181,7 @@ ForEach(function (e) {
 },alink);
 
 /*目录切换*/
-let menutit = getElementsByClassName('mtit','div','mlist');
+let menutit = getElementsByClassName('arrow-group','div','mlist');
 ForEach(function (e) {
     toggleClass(e,true,'active');
 },menutit);
@@ -157,7 +221,20 @@ if(!!document.getElementById('searchVal')) {
 * */
 let _countdown = document.getElementById("fnTimeCountDown");
 if(_countdown){
-    fnTimeCountDown("fnTimeCountDown","2019/1/30 23:59:59");
+    fnTimeCountDown("fnTimeCountDown","2019/2/30 23:59:59");
+}
+/*轮播图：
+ * @id:fnCarousel
+ * */
+let _carousel = document.getElementById("fnCarousel");
+if(_carousel){
+    carouselLeftRight("fnCarousel",{
+        cArr: ["li-3","li-2","li-1"],
+        prev:'arrow-prev',
+        next:'arrow-next',
+        index : 0,
+        speed:3000
+    });
 }
 
 }());
