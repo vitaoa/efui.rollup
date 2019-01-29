@@ -3,6 +3,20 @@
  * Created by GA on 2018/11/6.
  */
 
+/*
+* 事件绑定
+* */
+function addEventHandle(element,eventType,fn){
+    try{ // Chrome、FireFox、Opera、Safari、IE9.0及其以上版本
+        element.addEventListener(eventType,fn,false);//非IE
+    }catch(e){
+        try{ // IE8.0及其以下版本
+            element.attachEvent('on'+eventType,fn);//IE，这里拼接上'on',调用的时候不要加on，使用click等。
+        }catch(e){ // 早期浏览器
+            element['on' + eventType] = fn;//这里使用[]方式实现对象的属性添加，相当于.的作用
+        }
+    }
+}
 
 /*
 * @name:getElementsByClassName
@@ -137,4 +151,9 @@ function siblings(elem,cls) {
         }
     }
     return a;
+}
+
+//元素的索引,检索在elems集合中的索引
+function indexObj(elems,obj) {
+    return [].indexOf.call(elems, obj);
 }
