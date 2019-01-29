@@ -4,6 +4,10 @@
 @import "./scss/variables/variables";
 @import "./scss/mixins/library";
 $support_for_ie:true;
+$prefixes:("webkit","ms","moz","o");
+/////* ============ Responsive ============ */
+////----------------------------
+@import "./efui/queries";
 
 ///* ============ Normalize ============ */
 ////----------------------------
@@ -37,7 +41,6 @@ $support_for_ie:true;
 //////----------------------------
 @import "./efui/anim";
 //
-/////* ============ Responsive ============ */
+/////* ============ Sprites ============ */
 //////----------------------------
-//@import "efui/queries";
-//
+@import "sprites/sp-m-icons";

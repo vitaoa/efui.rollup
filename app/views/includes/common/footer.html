@@ -6,5 +6,17 @@
         if(document.getElementById('pageLoader')){
             document.getElementById('pageLoader').style.display='none';
         }
+
+        // /*init*////////////////////////////////////////
+        var _hash = window.location.hash.split('#')[1];
+        var tag = getElementsByClassName('mswitch');
+        if(_hash){
+            for(var i=0;i<tag.length;i++){
+                if(tag[i].id && new RegExp('.*' + tag[i].id + '.*').test(_hash)){
+                    var _index = indexObj(tag,document.getElementById(tag[i].id));
+                    getElementsByClassName(/.*/,'a','mlist')[_index].click();
+                }
+            }
+        }
     };
 </script>

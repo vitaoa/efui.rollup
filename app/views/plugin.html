@@ -3,95 +3,81 @@
 @@include('includes/common/head.html', {
 "title": "plugins"
 })
-	<body>
-	@@include('includes/common/header.html')
-		<div class="view-container container">
-			<div class="main-container">
-				<div class="mlist" id="mlist">
-					<div class="mtit"><span>目录</span></div>
-					<div class="mcon">
-						<ol>
-							<li class="current"><a href="javascript:;">倒计时</a></li>
-							<li><a href="javascript:;">轮播</a></li>
-							<li><a href="javascript:;">轮播212233</a></li>
-						</ol>
+<body>
+@@include('includes/common/header.html')
+<div class="view-container container">
+	<div class="main-container">
+		<div class="mlist" id="mlist">
+			<div class="mtit"><span>目录</span></div>
+			<div class="mcon">
+				<ol>
+					<li class="current"><a href="javascript:;">倒计时</a></li>
+					<li><a href="javascript:;">轮播</a></li>
+					<li><a href="javascript:;">轮播212233</a></li>
+				</ol>
+				<div class="arrow-group">
+					<span class="arrow-d"></span>
+					<i class="dot1"></i><i class="dot2"></i><i class="dot3"></i>
+				</div>
+			</div>
+		</div>
+		<div class="mswitch" id="daojishi">
+			<div class="example-title">倒计时</div>
+			<p class="p-txt1"></p>
+			<div class="example-demo">
+				<div class="countdown-block">
+					<div class="countdown">
+						<ul id="fnTimeCountDown" class="wow fadeInUp" data-wow-delay=".1s">
+							<li><span>Days</span><strong class="day">01</strong></li>
+							<li><i class="i-colon">:</i></li>
+							<li><span>Hours</span><strong class="hour">23</strong></li>
+							<li><i class="i-colon">:</i></li>
+							<li><span>Minutes</span><strong class="mini">45</strong></li>
+							<li><i class="i-colon">:</i></li>
+							<li><span>Seconds</span><strong class="sec">43</strong></li>
+							<li><i class="i-colon">:</i></li>
+							<li><span>Milliseconds</span><strong class="hm">234</strong></li>
+						</ul>
 					</div>
 				</div>
-				<div class="mswitch">
-					<div class="example-title">倒计时</div>
-					<p class="p-txt1"></p>
-					<div class="example-demo">
-						<div class="countdown-block">
-							<div class="countdown">
-								<ul id="fnTimeCountDown" class="wow fadeInUp" data-wow-delay=".1s">
-									<li><span>Days</span><strong class="day">01</strong></li>
-									<li><i class="i-colon"></i></li>
-									<li><span>Hours</span><strong class="hour">23</strong></li>
-									<li><i class="i-colon"></i></li>
-									<li><span>Minutes</span><strong class="mini">45</strong></li>
-									<li><i class="i-colon"></i></li>
-									<li><span>Seconds</span><strong class="sec">43</strong></li>
-									<li><i class="i-colon"></i></li>
-									<li><span>Milliseconds</span><strong class="hm">234</strong></li>
-								</ul>
-							</div>
-						</div>
+			</div>
+		</div>
+		<div class="mswitch" id="lunbotu">
+			<div class="example-title">轮播图</div>
+			<div class="example-demo">
+				<div class="carousel-pic" id="fnCarousel">
+					<div class="arrow-btns">
+						<i class="arrow-prev"><span class="arrow-prevh"></span></i>
+						<i class="arrow-next"><span class="arrow-nexth"></span></i>
 					</div>
-				</div>
-				<div class="mswitch">
-					<div class="example-demo">
-						<div class="carousel-pic">
-							<div class="arrow-btns">
-								<i class="arrow-prev"></i>
-								<i class="arrow-next"></i>
+					<ul>
+						<li class="li-3">
+							<i class="shadow-line-l"></i>
+							<i class="shadow-line-r"></i>
+							<div class="block-item">
+								<img src="../images/carousel-pic1.png" alt="">
+								<p class="p1">The Fed
+									<span>Interest Rate Decision</span></p>
+								<p class="p2">Slower the pace on interest rate hike</p>
+								<p class="p3"><span>Make $2,200 per lot </span></p>
 							</div>
-							<ul>
-								<li class="li-3">
-									<i class="shadow-line-l"></i>
-									<i class="shadow-line-r"></i>
-									<div class="block-item">
-										<img src="/lp/lp11/images/carousel-pic1.png" alt="">
-										<span class="star-group">
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-							</span>
-										<p class="p1">The Fed
-											<span>Interest Rate Decision</span></p>
-										<p class="p2">Slower the pace on interest rate hike</p>
-										<p class="p3"><span>Make $2,200 per lot </span></p>
-									</div>
-								</li>
-								<li class="li-2">
-									<i class="shadow-line-l"></i>
-									<i class="shadow-line-r"></i>
-									<div class="block-item">
-										<img src="/lp/lp11/images/carousel-pic2.png" alt="">
-										<span class="star-group">
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-							</span>
-										<p class="p1">ECB Interest Rate Decision</p>
-										<p class="p2">Raising rate in 2019 brings
-											<span>volatility to the market</span></p>
-										<p class="p3"><span>Make $2,200 per lot </span></p>
-									</div>
-								</li>
-								<li class="li-1">
-									<i class="shadow-line-l"></i>
-									<i class="shadow-line-r"></i>
-									<div class="block-item">
-										<img src="/lp/lp11/images/carousel-pic3.png" alt="">
-										<span class="star-group">
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-								<i class="i-star"></i>
-							</span>
+						</li>
+						<li class="li-2">
+							<i class="shadow-line-l"></i>
+							<i class="shadow-line-r"></i>
+							<div class="block-item">
+								<img src="../images/carousel-pic2.png" alt="">
+								<p class="p1">ECB Interest Rate Decision</p>
+								<p class="p2">Raising rate in 2019 brings
+									<span>volatility to the market</span></p>
+								<p class="p3"><span>Make $2,200 per lot </span></p>
+							</div>
+						</li>
+						<li class="li-1">
+							<i class="shadow-line-l"></i>
+							<i class="shadow-line-r"></i>
+							<div class="block-item">
+								<img src="../images/carousel-pic3.png" alt="">
 										<p class="p1">U. S. NonFarm Payroll</p>
 										<p class="p2">Bullish U.S. Labor Market
 											<span>USD is expected to rise</span></p>

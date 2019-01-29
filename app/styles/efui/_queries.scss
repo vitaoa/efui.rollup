@@ -1,6 +1,7 @@
 
 .mo,.mobile{display: none;}
 @media(max-width: 979px) {
+  html{font-size: 100px;}
   .computer{display: none;}
   .mo,.mobile{display: block;}
 }

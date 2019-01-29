@@ -1,0 +1,31 @@
+
+//******* animation
+//----------------------------
+@import "../scss/mixins/keyframes/keyframes";
+
+@include generateAnimation(arrowUpDown,$prefixes){
+  0% {opacity: 1;#{prefixerAttr(transform, $current-prefix)}: translate3d(0, -50%, 0);}
+  100% {opacity: 1;#{prefixerAttr(transform, $current-prefix)}: none;}
+}
+
+@include keyframes(anim-dot1,$prefixes) {
+  0%{opacity: .2;}
+  25%{opacity: 1;}
+  49%{opacity: .7;}
+  74%{opacity: .2;}
+  100%{opacity: .2;}
+}
+@include keyframes(anim-dot2,$prefixes) {
+  0%{opacity: .2;}
+  24%{opacity: .2;}
+  50%{opacity: 1;}
+  74%{opacity: .7;}
+  100%{opacity: .7;}
+}
+@include keyframes(anim-dot3,$prefixes) {
+  0%{opacity: .2;}
+  49%{opacity: .2;}
+  74%{opacity: .2;}
+  75%{opacity: 1;}
+  100%{opacity: .2;}
+}
