@@ -53,7 +53,32 @@
         </nav>
     </div>
 </header>
+
 <div class="view-container container">
+	<div class="dn">
+		<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+			<symbol id="imgdemo1">
+				<rect fill="#ccc" id="canvas_background" height="100%" width="100%" rx="5" ry="5"/>
+				<text opacity="0.35" stroke-dasharray="5,2,2,2,2,2" style="text-anchor: middle; dominant-baseline:middle;" font-family="Helvetica, Arial" x="50%" y="50%" font-size="100" id="svg_1" stroke-width="2" stroke="#000" fill="#000000">DEMO1</text>
+			</symbol>
+			<symbol id="imgdemo2">
+				<rect fill="#ccc" id="canvas_background" height="100%" width="100%" rx="5" ry="5"/>
+				<text opacity="0.35" stroke-dasharray="5,2,2,2,2,2" style="text-anchor: middle; dominant-baseline:middle;" font-family="Helvetica, Arial" x="50%" y="50%" font-size="100" id="svg_1" stroke-width="2" stroke="#000" fill="#000000">DEMO2</text>
+			</symbol>
+		</svg>
+		<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+			<defs>
+				<g id="imgdemo3">
+					<rect fill="#eee" id="canvas_background" height="100%" width="100%" rx="5" ry="5"/>
+					<text opacity="0.35" stroke-dasharray="5,2,2,2,2,2" style="text-anchor: middle; dominant-baseline:middle;" font-family="Helvetica, Arial" x="50%" y="50%" font-size="100" id="svg_1" stroke-width="2" stroke="#000" fill="#000000">DEMO3</text>
+				</g>
+				<g id="imgdemo4">
+					<rect fill="#eee" id="canvas_background" height="100%" width="100%" rx="5" ry="5"/>
+					<text opacity="0.35" stroke-dasharray="5,2,2,2,2,2" style="text-anchor: middle; dominant-baseline:middle;" font-family="Helvetica, Arial" x="50%" y="50%" font-size="100" id="svg_1" stroke-width="2" stroke="#000" fill="#000000">DEMO4</text>
+				</g>
+			</defs>
+		</svg>
+	</div>
 	<div class="main-container">
 		<div class="mlist" id="mlist">
 			<div class="mtit"><span>目录</span></div>
@@ -91,50 +116,87 @@
 			</div>
 		</div>
 		<div class="mswitch" id="lunbotu">
-			<div class="example-title">轮播图</div>
-			<div class="example-demo">
-				<div class="carousel-pic" id="fnCarousel">
-					<div class="arrow-btns">
-						<i class="arrow-prev"><span class="arrow-prevh"></span></i>
-						<i class="arrow-next"><span class="arrow-nexth"></span></i>
+			<ol class="decimal">
+				<li class="dn">
+					<div class="example-title">轮播图：层叠</div>
+					<div class="example-demo">
+						<div class="carousel-pic" id="fnCarousel">
+							<div class="arrow-btns">
+								<i class="arrow-prev"><span class="arrow-prevh"></span></i>
+								<i class="arrow-next"><span class="arrow-nexth"></span></i>
+							</div>
+							<ul>
+								<li class="li-3">
+									<i class="shadow-line-l"></i>
+									<i class="shadow-line-r"></i>
+									<div class="block-item">
+										<img src="../images/carousel-pic1.png" alt="">
+										<p class="p1">The Fed
+											<span>Interest Rate Decision</span></p>
+										<p class="p2">Slower the pace on interest rate hike</p>
+										<p class="p3"><span>Make $2,200 per lot </span></p>
+									</div>
+								</li>
+								<li class="li-2">
+									<i class="shadow-line-l"></i>
+									<i class="shadow-line-r"></i>
+									<div class="block-item">
+										<img src="../images/carousel-pic2.png" alt="">
+										<p class="p1">ECB Interest Rate Decision</p>
+										<p class="p2">Raising rate in 2019 brings
+											<span>volatility to the market</span></p>
+										<p class="p3"><span>Make $2,200 per lot </span></p>
+									</div>
+								</li>
+								<li class="li-1">
+									<i class="shadow-line-l"></i>
+									<i class="shadow-line-r"></i>
+									<div class="block-item">
+										<img src="../images/carousel-pic3.png" alt="">
+										<p class="p1">U. S. NonFarm Payroll</p>
+										<p class="p2">Bullish U.S. Labor Market
+											<span>USD is expected to rise</span></p>
+										<p class="p3"><span>Make $3,000 per lot </span></p>
+									</div>
+								</li>
+							</ul>
+						</div>
 					</div>
-					<ul>
-						<li class="li-3">
-							<i class="shadow-line-l"></i>
-							<i class="shadow-line-r"></i>
-							<div class="block-item">
-								<img src="../images/carousel-pic1.png" alt="">
-								<p class="p1">The Fed
-									<span>Interest Rate Decision</span></p>
-								<p class="p2">Slower the pace on interest rate hike</p>
-								<p class="p3"><span>Make $2,200 per lot </span></p>
+				</li>
+				<li>
+					<div class="example-title">轮播图：左右切换</div>
+					<div class="example-demo">
+						<div class="slider sliderLeftRight" id="fnsliderLeftRight">
+							<span class="arrow-btn btn-prev"><i class="i-arrow-left"></i></span>
+							<span class="arrow-btn btn-next"><i class="i-arrow-right"></i></span>
+							<div class="picswitch-itmes">
+								<ul class="slider-wrapper">
+									<li>
+										<svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 640 640">
+											<use xlink:href="#imgdemo1" href="#imgdemo1" />
+										</svg>
+									</li>
+									<li>
+										<svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 640 640">
+											<use xlink:href="#imgdemo2" href="#imgdemo2" />
+										</svg>
+									</li>
+									<li>
+										<svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 640 640">
+											<use xlink:href="#imgdemo3" href="#imgdemo3" />
+										</svg>
+									</li>
+									<li>
+										<svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 640 640">
+											<use xlink:href="#imgdemo4" href="#imgdemo4" />
+										</svg>
+									</li>
+								</ul>
 							</div>
-						</li>
-						<li class="li-2">
-							<i class="shadow-line-l"></i>
-							<i class="shadow-line-r"></i>
-							<div class="block-item">
-								<img src="../images/carousel-pic2.png" alt="">
-								<p class="p1">ECB Interest Rate Decision</p>
-								<p class="p2">Raising rate in 2019 brings
-									<span>volatility to the market</span></p>
-								<p class="p3"><span>Make $2,200 per lot </span></p>
-							</div>
-						</li>
-						<li class="li-1">
-							<i class="shadow-line-l"></i>
-							<i class="shadow-line-r"></i>
-							<div class="block-item">
-								<img src="../images/carousel-pic3.png" alt="">
-								<p class="p1">U. S. NonFarm Payroll</p>
-								<p class="p2">Bullish U.S. Labor Market
-									<span>USD is expected to rise</span></p>
-								<p class="p3"><span>Make $3,000 per lot </span></p>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
+						</div>
+					</div>
+				</li>
+			</ol>
 		</div>
 		<div class="mswitch">
 			tttttsdaf
@@ -143,25 +205,34 @@
 </div>
 
 <!--footer-->
+<script type="text/javascript" src="../js/plugin/Search.js" ></script>
+<script type="text/javascript" src="../js/plugin/CountDown.js" ></script>
+<script type="text/javascript" src="../js/plugin/carouselLeftRight.js" ></script>
 <script type="text/javascript" src="../js/lib/base.js" ></script>
 <script type="text/javascript" src="../js/rollup.js" ></script>
 
 <script>
     window.onload = function(){
-        if(document.getElementById('pageLoader')){
-            document.getElementById('pageLoader').style.display='none';
-        }
 
         // /*init*////////////////////////////////////////
-        var _hash = window.location.hash.split('#')[1];
-        var tag = getElementsByClassName('mswitch');
-        if(_hash){
-            for(var i=0;i<tag.length;i++){
-                if(tag[i].id && new RegExp('.*' + tag[i].id + '.*').test(_hash)){
-                    var _index = indexObj(tag,document.getElementById(tag[i].id));
-                    getElementsByClassName(/.*/,'a','mlist')[_index].click();
+        try{
+            if(document.getElementById('pageLoader')){
+                document.getElementById('pageLoader').style.display='none';
+            }
+            var _hash = window.location.hash.split('#')[1];
+            var tag = getElementsByClassName('mswitch');
+            if(tag.length>0){
+                if(!!_hash){
+                    for(var i=0;i<tag.length;i++){
+                        if(tag[i].id && new RegExp('.*' + tag[i].id + '.*').test(_hash)){
+                            var _index = indexObj(tag,document.getElementById(tag[i].id));
+                            getElementsByClassName(/.*/,'a','mlist')[_index].click();
+                        }
+                    }
                 }
             }
+        }catch(e){
+            console.error(e);
         }
     };
 </script>

@@ -2,26 +2,27 @@
  * Created by GA on 2018/11/14.
  */
 
-import { Search } from '../ts/Search.ts';
-import { fnTimeCountDown } from '../ts/CountDown.ts';
-import { carouselLeftRight } from '../ts/Carousel.ts';
+//
+// import { sliderAroundLeftRight } from '../ts/Slider.ts';
 
 
 // /*base*////////////////////////////////////////
-let alink = getElementsByClassName('navbar-toggle','button');
+/*菜单切换*/
+var alink = getElementsByClassName('navbar-toggle','button');
 ForEach(function (e) {
     toggleClass(e,true,'active');
 },alink);
 
 /*目录切换*/
-let menutit = getElementsByClassName('arrow-group','div','mlist');
+var menutit = getElementsByClassName('arrow-group','div','mlist');
 ForEach(function (e) {
     toggleClass(e,true,'active');
 },menutit);
-let menulist = getElementsByClassName(/.*/,'a','mlist');
-let menuswitch = getElementsByClassName('mswitch','div');
+var menulist = getElementsByClassName(/.*/,'a','mlist');
+var menuswitch = getElementsByClassName('mswitch','div');
 ForEach(function (e,i,arr) {
     e.onclick=function () {
+        window.location.hash=menuswitch[i].id;
         addClass(this.parentNode,'current');
         ForEach(function (e) {
             removeClass(e,'current');
@@ -41,7 +42,7 @@ if(!!document.getElementById('searchBtn')){
 }
 if(!!document.getElementById('searchVal')) {
     document.getElementById('searchVal').onkeydown = function (event) {
-        let e = event || window.event;
+        var e = event || window.event;
         if (e && e.keyCode == 13) { //回车键的键值为13
             Search(this);
         }
@@ -52,14 +53,14 @@ if(!!document.getElementById('searchVal')) {
 /*倒计时：
 * @id:fnTimeCountDown
 * */
-let _countdown = document.getElementById("fnTimeCountDown");
+var _countdown = document.getElementById("fnTimeCountDown");
 if(_countdown){
-    fnTimeCountDown("fnTimeCountDown","2019/2/30 23:59:59");
+    fnTimeCountDown("fnTimeCountDown","2020/2/30 23:59:59");
 }
 /*轮播图：
  * @id:fnCarousel
  * */
-let _carousel = document.getElementById("fnCarousel");
+var _carousel = document.getElementById("fnCarousel");
 if(_carousel){
     carouselLeftRight("fnCarousel",{
         cArr: ["li-3","li-2","li-1"],
@@ -69,5 +70,19 @@ if(_carousel){
         speed:3000
     });
 }
+/*滑动切换轮播图：
+ * @id:fnsliderLeftRight
+ * */
+// var _sliderLeftRight = document.getElementById("fnsliderLeftRight");
+// if(_sliderLeftRight){
+//     sliderAroundLeftRight("fnsliderLeftRight",{
+//         wrapper:'slider-wrapper',
+//         item:'li',
+//         speed:2000,
+//         loop:true,
+//         prev:'btn-prev',
+//         next:'btn-next'
+//     });
+// }
 
 

@@ -1,9 +1,7 @@
 /**
  * 倒计时插件-CountDown
  */
-
-export function fnTimeCountDown(dom,time){
-
+const fnTimeCountDown = (dom,time) =>{
     let oTime={
         msec:0,
         sec:0,
