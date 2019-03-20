@@ -151,45 +151,6 @@ gulp.task('sprites:more',function(done){
 });
 //---------------------------------------file-include----------------------------//
 
-// rollup
-//---------------------------------------gulp-rollup----------------------------//
-let _scriptsFiles = glob.sync(fileinclude_DIR + "scripts/**/*.*");
-gulp.task('rollup:js', function() {
-    _scriptsFiles.filter(function (file) {
-        return (file.indexOf("module/") !== -1) && (file.endsWith('.js'));//过滤不是js的文件
-    }).forEach(function (file) {
-        let basename = path.basename(file);
-        let name = basename.split('.')[0]
-        console.log(file)
-        console.log(name)
-
-        return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:fileinclude_DIR + 'scripts/module/'})
-            .pipe(rollup({
-                //定义多入口
-                input: file,
-                output: {
-                    format: 'umd',
-                    name: name
-                },
-                plugins: [
-                    typescript(),
-                    babel({
-                        presets: [
-                            ["@babel/env",
-                                {
-                                    "loose": true,
-                                    "modules":false
-                                }
-                            ]
-                        ]
-                    })
-                ],
-            }))
-            .pipe(gulp.dest(DIST_DIR + 'js'))
-    });
-});
-//---------------------------------------gulp-rollup----------------------------//
-
 //---------------------------------------gulp-babel----------------------------//
 //es6转码
 gulp.task('babel:js',function(){
@@ -215,6 +176,50 @@ gulp.task('babel:js',function(){
         .pipe(gulp.dest(DIST_DIR + 'js'));
 });
 //---------------------------------------gulp-babel----------------------------//
+
+//---------------------------------------gulp-rollup----------------------------//
+// rollup（打包babel转码后的plugin文件夹里的js）
+let _scriptsFiles = glob.sync(fileinclude_DIR + "scripts/**/*.*");
+gulp.task('rollup:js', function(done ) {
+    _scriptsFiles.filter(function (file) {
+        return (file.indexOf("module/") !== -1 || file.indexOf("plugin/") !== -1);//过滤
+    }).forEach(function (file) {
+        let basename = path.basename(file);
+        let name = basename.split('.')[0];
+        let baseDir = fileinclude_DIR + 'scripts/' + file.split('scripts/')[1]+ '/';
+        console.log(file)
+        console.log(file.split('scripts/')[1].split('/')[0])
+        if(file.split('scripts/')[1].split('/')[0] == 'module'){
+            baseDir = fileinclude_DIR + 'scripts/module/'
+        }
+
+        return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:baseDir})
+            .pipe(rollup({
+                //定义多入口
+                input: file,
+                output: {
+                    format: 'umd',
+                    name: name
+                },
+                plugins: [
+                    typescript(),
+                    babel({
+                        presets: [
+                            ["@babel/env",
+                                {
+                                    "loose": true,
+                                    "modules":false
+                                }
+                            ]
+                        ]
+                    })
+                ],
+            }))
+            .pipe(gulp.dest(DIST_DIR + 'js'));
+    });
+    done();
+});
+//---------------------------------------gulp-rollup----------------------------//
 
 
 // scss编译
