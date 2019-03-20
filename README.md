@@ -193,21 +193,23 @@
         const spritesmith = require('gulp.spritesmith');(插件需优化：没有rem)
         
 1. **gulp-babel**
-    npm install --save-dev gulp-babel@next @babel/core    
-    npm install @babel/preset-env --save-dev //动态转换ES6代码至可执行的JS代码
-    npm install --save-dev @babel/preset-typescript //babel v7支持typescript
-    const babel = require("gulp-babel");
+
+        安装：npm install --save-dev gulp-babel@next @babel/core    
+        npm install @babel/preset-env --save-dev //动态转换ES6代码至可执行的JS代码
+        //npm install @babel/preset-es2015 --save-dev //['es2015']
+        npm install --save-dev @babel/preset-typescript //babel v7支持typescript
+        const babel = require("gulp-babel");
     
-    gulp.task('babel:js', function(){
-        return gulp.src(DIST_DIR + 'js/*.js')
-            .pipe(babel({
-                 presets: [ 
-                    ['@babel/env',{}],
-                    ['@babel/preset-typescript',{}]
-                ]
-            }))
-            .pipe(gulp.dest(DIST_DIR + 'js/'))
-    });
+        gulp.task('babel:js', function(){
+            return gulp.src(DIST_DIR + 'js/*.js')
+                .pipe(babel({
+                     presets: [ 
+                        ['@babel/env',{}],
+                        ['@babel/preset-typescript',{}]
+                    ]
+                }))
+                .pipe(gulp.dest(DIST_DIR + 'js/'))
+        });
 
         
 ### npm插件：  
@@ -270,3 +272,17 @@
     安装包： bower 默认情况都会去bower.com上面找最新的包，除非指定版本号（bower install jQuery --save-dev）
     
     .bowerrc 文件配置安装路径
+    
+1. browserify npm install browserify -save-dev
+    
+        var browserify = require('browserify');
+        var gulp = require('gulp');
+        var source = require('vinyl-source-stream');//将常规流转换为包含 Stream 的 vinyl 对象
+        var buffer = require('vinyl-buffer');//将 vinyl 对象内容中的 Stream 转换为 Buffer    
+        gulp.task('browserify', function() {
+          return browserify('./src/js/app.js')
+            .bundle()
+            .pipe(source('bundle.js'))
+            .pipe(buffer())
+            .pipe(gulp.dest('./dist/js'));
+        });
