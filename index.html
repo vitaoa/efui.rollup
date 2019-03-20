@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<!-- UC强制全屏 -->
+	<meta name="full-screen" content="yes">
+	<!--QQ强制全屏-->
+	<meta name="x5-fullscreen" content="true">
+	<!--QQ应用模式-->
+	<meta name="x5-page-mode" content=app>
+	<!--UC应用模式-->
+	<meta name="browsermode" content="application">
+
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<title>EFUI Plug-in library</title>
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+	<link rel="stylesheet" href="css/efui.css" />
+	
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5SLJCWM');</script>
+	<!-- End Google Tag Manager -->
+</head>
+
+
+	<body>
+
+		<!--page loader-->
+		<div class="page-loader" id="pageLoader" style="position:fixed;top:0;left:0;bottom:0;width:100%;background:#1d365d;z-index: 100000;text-align: center;">
+		    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48px" height="100%" viewBox="0 0 48 60">
+		        <rect x="0" y="13" width="4" height="5" fill="#fff">
+		            <animate attributeName="height" attributeType="XML" values="5;21;5" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		            <animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0s" dur="0.6s" repeatCount="indefinite" />
+		        </rect>
+		        <rect x="10" y="13" width="4" height="5" fill="#fff">
+		            <animate attributeName="height" attributeType="XML" values="5;21;5" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		            <animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+		        </rect>
+		        <rect x="20" y="13" width="4" height="5" fill="#fff">
+		            <animate attributeName="height" attributeType="XML" values="5;21;5" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		            <animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+		        </rect>
+		        <rect x="30" y="13" width="4" height="5" fill="#fff">
+		            <animate attributeName="height" attributeType="XML" values="5;21;5" begin="0.45s" dur="0.6s" repeatCount="indefinite" />
+		            <animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0.45s" dur="0.6s" repeatCount="indefinite" />
+		        </rect>
+		        <rect x="40" y="13" width="4" height="5" fill="#fff">
+		            <animate attributeName="height" attributeType="XML" values="5;21;5" begin="0.6s" dur="0.6s" repeatCount="indefinite" />
+		            <animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0.6s" dur="0.6s" repeatCount="indefinite" />
+		        </rect>
+		        <text text-anchor="middle" x="20" y="45" fill="#fff" style="font-size:12px;">加载中<!-- {{'13834890323'|hidetel}}--></span></text>
+		    </svg>
+		</div>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5SLJCWM"
+		                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<!--header-->
+		<header class="navbar navbar-inverse navbar-shadows navbar-fixed-top">
+		    <div class="container">
+		        <div class="navbar-header">
+		            <button type="button" class="navbar-toggle show-sm-only">
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="/index.html"><i class="logo"></i></a>
+		        </div>
+		        <nav class="collapse navbar-collapse">
+		            <ul class="nav nav-right">
+		                <li><a href="/index.html">Plug-in library</a></li>
+		            </ul>
+		        </nav>
+		    </div>
+		</header>
+		<div class="view-container container">
+			<div class="main-container">
+				<div class="search-bar col-group clearfix">
+					<div class="col-group-7"><input type="text" class="i-text i-text-block" id="searchVal"></div>
+					<div class="col-group-3"><button type="submit" class="btn btn-primary btn-block" id="searchBtn">搜索</button></div>
+				</div>
+				<div class="search-result">
+					<ul id="searchResult"></ul>
+				</div>
+			</div>
+		</div>
+
+		<!--footer-->
+		<script type="text/javascript" src="js/plugin/Search.js" ></script>
+		<script type="text/javascript" src="js/plugin/CountDown.js" ></script>
+		<script type="text/javascript" src="js/plugin/carouselLeftRight.js" ></script>
+		<script type="text/javascript" src="js/lib/base.js" ></script>
+		<script type="text/javascript" src="js/rollup.js" ></script>
+		
+		<script>
+		    window.onload = function(){
+
+		        // /*init*////////////////////////////////////////
+		        try{
+		            if(document.getElementById('pageLoader')){
+		                document.getElementById('pageLoader').style.display='none';
+		            }
+		            var _hash = window.location.hash.split('#')[1];
+		            var tag = getElementsByClassName('mswitch');
+		            if(tag.length>0){
+		                if(!!_hash){
+		                    for(var i=0;i<tag.length;i++){
+		                        if(tag[i].id && new RegExp('.*' + tag[i].id + '.*').test(_hash)){
+		                            var _index = indexObj(tag,document.getElementById(tag[i].id));
+		                            getElementsByClassName(/.*/,'a','mlist')[_index].click();
+		                        }
+		                    }
+		                }
+		            }
+		        }catch(e){
+		            console.error(e);
+		        }
+		    };
+		</script>
+	</body>
+
+</html>

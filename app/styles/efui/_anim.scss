@@ -7,6 +7,10 @@
   0% {opacity: 1;#{prefixerAttr(transform, $current-prefix)}: translate3d(0, -50%, 0);}
   100% {opacity: 1;#{prefixerAttr(transform, $current-prefix)}: none;}
 }
+@include generateAnimation(arrowLeft,$prefixes){
+  0% {opacity: 1;#{prefixerAttr(transform, $current-prefix)}: translate3d(-50%, 0, 0);}
+  100% {opacity: 1;#{prefixerAttr(transform, $current-prefix)}: none;}
+}
 
 @include keyframes(anim-dot1,$prefixes) {
   0%{opacity: .2;}

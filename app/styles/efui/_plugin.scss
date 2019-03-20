@@ -55,3 +55,34 @@
   .li-3{left:auto;margin-left: 0;right:0;
     @include prefixer(transform, translate(38px,0) scale(0.74), ("webkit","ms","moz","o"));}
 }
+
+
+/* 轮播插件-slider */
+.slider{position: relative;width:100%;margin: 0 auto;
+  .arrow-btn {display: block;text-align: center;position: absolute;top: 50%;margin-top:-$border/2;cursor: pointer;font-size: 2em;z-index: 9;@include size($border*2,$border*2);/*border:1px solid #000;*/
+    &.btn-prev {left: 0;}
+    &.btn-next {right: 0;}
+    i{@include inline-block;}
+  }
+  .i-arrow-left{
+    @include prefixer(animation,arrowLeft .8s linear infinite,$prefixes);
+    &:before{content: "";display:block;@include triangle-arrow(left,$border,#111f36);position: absolute;left:-($border+1px);top:0;}
+    &:after{content: "";display:block;@include triangle-arrow(left,$border,#fff);position: absolute;left:-$border;top:0;}
+  }
+  .i-arrow-right{
+    &:before{content: "";display:block;@include triangle-arrow(right,$border,#111f36);position: absolute;left:1px;top:0;}
+    &:after{content: "";display:block;@include triangle-arrow(right,$border,#fff);position: absolute;left:0;top:0;}
+  }
+
+  .dot-btn{position: absolute;bottom:0;left:0;right:0;text-align: center;
+    span{@include inline-block;cursor: pointer;
+      &.active{}
+    }
+  }
+  .picswitch-itmes {width: 80%;height: 100%;margin: 0 auto;overflow: hidden;position: relative;
+    ul {position: relative;padding: 0;margin: 0;height: 100%;width:510%;transition: all 1s ease;}
+    li {float: left;height: 100%;margin: 0 10px;width: 202px;padding: 0 10px;
+      & > img {width: 100%;height: 100%;}
+    }
+  }
+}

@@ -34,8 +34,9 @@ pre {overflow: auto;white-space: pre-wrap;word-break: break-all;word-wrap: break
 .pt25 { padding-top: 25px; }
 .plr10{padding: 0 10px;}
 
-.hide-t {@include text-hide;}
+.hide-t{@include text-hide;}
 .clearfix{@include clearfix;}
+.dn{display: none;}
 
 
 /* header */
