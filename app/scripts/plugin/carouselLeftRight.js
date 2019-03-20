@@ -1,8 +1,7 @@
 /**
  * 轮播插件-CAROUSEL
  */
-
-export function carouselLeftRight(dom,options){
+const carouselLeftRight = (dom,options) =>{
     let option = Object.assign({},options);
 
     let cArr = option.cArr;
@@ -65,4 +64,5 @@ export function carouselLeftRight(dom,options){
             timer=setInterval(nextimg,speed);
         });
     },_obj);
+
 }

@@ -13,7 +13,7 @@ function levelRequestListener () {
 }
 
 /*search*/
-export function Search(dom){
+const Search = (dom) => {
     request.onload = levelRequestListener;
     request.open("get", "js/data/route.json", false);//同步
     request.send();
@@ -50,4 +50,3 @@ function JsonQuery(arr:Array<any>,obj:any):any{
     }
     return _arr;
 }
-

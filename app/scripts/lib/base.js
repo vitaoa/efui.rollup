@@ -4,6 +4,17 @@
  */
 
 /*
+* 创建DOM
+* */
+function createEl(tag,classes) {
+    var el = document.createElement(tag || 'div');
+    if(classes) {
+        el.className = classes;
+    }
+    return el;
+}
+
+/*
 * 事件绑定
 * */
 function addEventHandle(element,eventType,fn){
@@ -34,7 +45,7 @@ function getElementsByClassName (cName,domTag,root) {
     var els = root.getElementsByTagName(domTag);
     var arr = [];
     for (var i = 0,n = els.length; i < n; i++) {
-        for (var j = 0,k = els[i].className.split(" "),l = k.length; j < l; j++) {
+        for (var j = 0,k = els[i].className.toString().split(" "),l = k.length; j < l; j++) {
             if(cName instanceof RegExp){
                 if(cName.test(k[j])){
                     arr.push(els[i]);
@@ -68,8 +79,8 @@ function ForEach(callBack, context) {
 
 //该函数有三个基本参数：第一个参数是DOM节点（必选）；第二个参数是事件是否是父元素（必选）；第三个参数是切换的class名（必选，字串或者正则形式）,正则形式时必须配置option参数("classActive"和"classDefault");
 //第四个是扩展参数:子元素的相关参数,正则匹配替换的class变量.
-function toggleClass(ele,toggleParent,toggleClass,option) {
-    ele.onclick=function () {
+function toggleClass(element,toggleParent,toggleClass,option) {
+    element.onclick=function () {
         var isRegExp = toggleClass instanceof RegExp;
         var _toggleObj;
         if(toggleParent){
@@ -113,36 +124,46 @@ function toggleClass(ele,toggleParent,toggleClass,option) {
     }
 }
 
-function hasClass(elem, cls) {
-    cls = cls || '';
-    if (cls.replace(/\s/g, '').length == 0) return false;
-    return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
+function hasClass(element, className) {
+    className = className || '';
+    if (className.replace(/\s/g, '').length == 0) return false;
+    return new RegExp(' ' + className + ' ').test(' ' + element.className + ' ');
 }
 
-function addClass(elem, cls) {
-    if (!hasClass(elem, cls)) {
-        elem.className = elem.className == '' ? cls : elem.className + ' ' + cls;
+function addClass(element, className) {
+    if (!hasClass(element, className)) {
+        element.className = element.className == '' ? className : element.className + ' ' + className;
     }
 }
 
-function removeClass(elem, cls) {
-    if (hasClass(elem, cls)) {
-        var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, '') + ' ';
-        while (newClass.indexOf(' ' + cls + ' ') >= 0) {
-            newClass = newClass.replace(' ' + cls + ' ', ' ');
+function removeClass(element, className) {
+    if (hasClass(element, className)) {
+        var newClass = ' ' + element.className.replace(/[\t\r\n]/g, '') + ' ';
+        while (newClass.indexOf(' ' + className + ' ') >= 0) {
+            newClass = newClass.replace(' ' + className + ' ', ' ');
         }
-        elem.className = newClass.replace(/^\s+|\s+$/g, '');
+        element.className = newClass.replace(/^\s+|\s+$/g, '');
+    }
+}
+
+function getChildByClass(parentEl, childClassName) {
+    var node = parentEl.firstChild;
+    while(node) {
+        if( hasClass(node, childClassName) ) {
+            return node;
+        }
+        node = node.nextSibling;
     }
 }
 
 //该函数有二个基本参数：第一个参数是DOM节点（必选）；第二个参数是DOM的class名
-function siblings(elem,cls) {
+function siblings(element,className) {
     var a = [];
-    var p = elem.parentNode.children;
+    var p = element.parentNode.children;
     for(var i = 0; i < p.length; i++) {
-        if(p[i] !== elem){
-            if(cls){
-                if(hasClass(p[i],cls)){
+        if(p[i] !== element){
+            if(className){
+                if(hasClass(p[i],className)){
                     a.push(p[i]);
                 }
             }else{
@@ -153,7 +174,9 @@ function siblings(elem,cls) {
     return a;
 }
 
-//元素的索引,检索在elems集合中的索引
-function indexObj(elems,obj) {
-    return [].indexOf.call(elems, obj);
+//元素的索引,检索在elements集合中的索引
+function indexObj(elements,obj) {
+    return [].indexOf.call(elements, obj);
 }
+
+//动画效果

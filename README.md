@@ -25,7 +25,7 @@
 1. 终端命令参数
 
         // rollup main.js -o index.js -f iife
-        // -f 指定输出文件类型：cjs(nodejs使用), iife(浏览器使用), umd(浏览器与nodejs同时使用)
+        // -f 指定输出文件类型：amd -- 异步模块定义，用于像RequestJS这样的模块加载器, cjs(nodejs使用), iife(浏览器使用), umd(浏览器与nodejs同时使用), es -- 将软件包保存为ES模块文件
         // -o 输出文件名
         // --watch rollup-watch插件，监听源文件是否有改动，如果有改动，重新打包
         // -c 指定配置文件，默认rollup.config.js
@@ -94,6 +94,22 @@
         }
         引用ts文件：import { fnTimeCountDown } from '../ts/CountDown.ts';
         
+1. **Babel**: 
+
+        安装：npm install --save-dev rollup-plugin-babel@latest @babel/core 
+        npm install @babel/preset-env --save-dev //动态转换ES6代码至可执行的JS代码
+        在配置文件rollup.config.js里写入：
+        import babel from 'rollup-plugin-babel';
+        export default {
+            plugins: [
+                babel({
+                    presets: [
+                        ["@babel/env"]
+                    ]
+                })
+            ]
+        }
+
         
 ### gulp插件：       
 1. **gulp-file-include**:   
@@ -176,6 +192,24 @@
         const path = require("path");
         const spritesmith = require('gulp.spritesmith');(插件需优化：没有rem)
         
+1. **gulp-babel**
+    npm install --save-dev gulp-babel@next @babel/core    
+    npm install @babel/preset-env --save-dev //动态转换ES6代码至可执行的JS代码
+    npm install --save-dev @babel/preset-typescript //babel v7支持typescript
+    const babel = require("gulp-babel");
+    
+    gulp.task('babel:js', function(){
+        return gulp.src(DIST_DIR + 'js/*.js')
+            .pipe(babel({
+                 presets: [ 
+                    ['@babel/env',{}],
+                    ['@babel/preset-typescript',{}]
+                ]
+            }))
+            .pipe(gulp.dest(DIST_DIR + 'js/'))
+    });
+
+        
 ### npm插件：  
 1. **安装Browsersync实时刷新浏览器**: npm install --save-dev browser-sync
 
@@ -228,4 +262,11 @@
             2: git checkout --patch master f.txt
 
 
-        
+### 包管理工具    
+1. Bower：npm install bower -g
+
+    bower.json配置文件：bower init
+    
+    安装包： bower 默认情况都会去bower.com上面找最新的包，除非指定版本号（bower install jQuery --save-dev）
+    
+    .bowerrc 文件配置安装路径

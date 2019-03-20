@@ -8,6 +8,8 @@ const tinypng_nokey = require('gulp-tinypng-nokey');   //压缩图片 免费 不
 const glob = require("glob");
 const path = require("path");
 const spritesmith = require('gulp.spritesmith');
+const gulpbabel = require("gulp-babel");
+const babel = require("rollup-plugin-babel");
 
 //---------------------------------------参数声明----------------------------//
 const fileinclude_DIR = './app/';   // 源文件目录
@@ -15,17 +17,26 @@ const DIST_DIR = './';   // 文件输出目录，根目录
 
 // html编译
 //---------------------------------------file-include----------------------------//
+let _JsFiles = glob.sync("js/**/*.*");
+let _indexJs=['js/rollup.js'],_subJs=['../js/rollup.js'];
+_JsFiles.filter(function (file) {
+    return ((file.indexOf("plugin/")!=-1) || (file.indexOf("lib/")!=-1)) && (file.endsWith('.js'));
+}).forEach(function (file) {
+    // console.log(file)
+    _indexJs.unshift(file)
+    _subJs.unshift("../"+file)
+})
 let paramHtmlIndex={
     rootUrl:'/bag/en/',
     timestamp:[new Date().getTime(),Math.random().toFixed(0)],
     styles: ['css/efui.css'],
-    js: ['js/lib/base.js','js/rollup.js']
+    js: _indexJs
 }
 let paramHtml={
     rootUrl:'/bag/en/',
     timestamp:[new Date().getTime(),Math.random().toFixed(0)],
     styles: ['../css/efui.css'],
-    js: ['../js/lib/base.js','../js/rollup.js']
+    js: _subJs
 }
 gulp.task('fileIncludeIndex',function(done) {
     gulp.src(fileinclude_DIR + 'views/**/index.html')
@@ -49,6 +60,7 @@ gulp.task('fileInclude',function(done) {
         .pipe(gulp.dest(DIST_DIR + 'pages/'));
     done();
 });
+
 // copy assets
 gulp.task('copy:datas',function () {
     return gulp.src(fileinclude_DIR + 'scripts/data/**/*.json')
@@ -141,21 +153,69 @@ gulp.task('sprites:more',function(done){
 
 // rollup
 //---------------------------------------gulp-rollup----------------------------//
+let _scriptsFiles = glob.sync(fileinclude_DIR + "scripts/**/*.*");
 gulp.task('rollup:js', function() {
-    return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:fileinclude_DIR + 'scripts/module/'})
-        .pipe(rollup({
-            input: fileinclude_DIR + 'scripts/module/rollup.js',
-            output: {
-                format: 'iife',
-                name: 'MyBundle',
-            },
-            plugins: [
-                typescript({lib: ["es5", "es6", "dom"], target: "es5"}),
+    _scriptsFiles.filter(function (file) {
+        return (file.indexOf("module/") !== -1) && (file.endsWith('.js'));//过滤不是js的文件
+    }).forEach(function (file) {
+        let basename = path.basename(file);
+        let name = basename.split('.')[0]
+        console.log(file)
+        console.log(name)
+
+        return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:fileinclude_DIR + 'scripts/module/'})
+            .pipe(rollup({
+                //定义多入口
+                input: file,
+                output: {
+                    format: 'umd',
+                    name: name
+                },
+                plugins: [
+                    typescript(),
+                    babel({
+                        presets: [
+                            ["@babel/env",
+                                {
+                                    "loose": true,
+                                    "modules":false
+                                }
+                            ]
+                        ]
+                    })
+                ],
+            }))
+            .pipe(gulp.dest(DIST_DIR + 'js'))
+    });
+});
+//---------------------------------------gulp-rollup----------------------------//
+
+//---------------------------------------gulp-babel----------------------------//
+//es6转码
+gulp.task('babel:js',function(){
+    return gulp.src(fileinclude_DIR + 'scripts/plugin/**/*.*',{base:fileinclude_DIR + 'scripts/'})
+        .pipe(gulpbabel({
+            presets: [
+                ["@babel/preset-typescript"],
+                ["@babel/env",
+                    {
+                        "loose": true,
+                        "modules":false,
+                        // "debug":true,
+                        "targets": {
+                            // "chrome": "58",
+                            "ie": "7",
+                            "node": "current"
+                        },
+                    }
+                ]
             ],
+            // "exclude":[DIST_DIR + "js/lib/*.js"]
         }))
         .pipe(gulp.dest(DIST_DIR + 'js'));
 });
-//---------------------------------------gulp-rollup----------------------------//
+//---------------------------------------gulp-babel----------------------------//
+
 
 // scss编译
 //---------------------------------------gulp-sass----------------------------//
@@ -184,7 +244,7 @@ gulp.task('sass:base64',gulp.series('sass',function () {
 // gulp.task('package',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass'));
 
 const browserSync = require('browser-sync');
-gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass:base64',function() {
+gulp.task('server',gulp.parallel('fileInclude', 'fileIncludeIndex','copy:datas','copy:js','rollup:js','sass:base64',function() {
     let files = [
         fileinclude_DIR + 'views/**/*.*',
         fileinclude_DIR + 'scripts/**/*.*',
@@ -196,13 +256,13 @@ gulp.task('server',gulp.series('fileInclude', 'fileIncludeIndex','copy:datas','c
         port:'9999',
         server: {
             baseDir:'./',  // 设置服务器的根目录
-            index:'pages/plugin.html' // 指定默认打开的文件
+            index:'index.html' // 指定默认打开的文件
         },
         open:false
     });
 
     gulp.watch(fileinclude_DIR + 'views/**/*.*',gulp.parallel('fileInclude', 'fileIncludeIndex'));
     gulp.watch(fileinclude_DIR + 'scripts/**/*.*',gulp.parallel('copy:datas','copy:js','rollup:js'));
-    gulp.watch(fileinclude_DIR + 'styles/**/*.*',gulp.series('sass'));
+    gulp.watch(fileinclude_DIR + 'styles/**/*.*',gulp.series('sass:base64'));
     gulp.watch(fileinclude_DIR + 'images/**/*.*',gulp.series('images:tinypng'));
 }));
