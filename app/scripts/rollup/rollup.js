@@ -1,11 +1,7 @@
-/**
- * Created by GA on 2018/11/14.
- */
 
-//
-import { carouselLeftRight } from '../babel/es6/carouselLeftRight';
 import { Search } from '../babel/ts/Search';
-
+import { carouselLeftRight } from '../babel/es6/carouselLeftRight';
+import { fnTimeCountDown } from '../babel/es6/CountDown';
 
 // /*base*////////////////////////////////////////
 /*菜单切换*/

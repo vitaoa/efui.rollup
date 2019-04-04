@@ -109,6 +109,10 @@
                 })
             ]
         }
+1. **rollup-plugin-buble**
+
+        用途是在rollup.js打包的过程中进行代码编译，将ES6+代码编译成ES2015标准，取代Babel
+        安装：npm i -D rollup-plugin-buble
 
         
 ### gulp插件：       

@@ -1,25 +1,18 @@
+import Utils from '../es6/utils/utils.js';
 
-
-let _searchKeywords:any='';
-let request = new XMLHttpRequest();
-function levelRequestListener () {
-    if (this.readyState === 4) {
-        if (this.status === 200) {
-            _searchKeywords = JSON.parse(this.responseText);
-        } else {
-            console.error(this.statusText);
-        }
+declare global {
+    interface Window {
+        searchKeywords: ''
     }
 }
-
-/*search*/
+let request = new XMLHttpRequest();
 export const Search = (dom) => {
-    request.onload = levelRequestListener;
+    request.onload = Utils.levelRequestListener;
     request.open("get", "js/data/route.json", false);//同步
     request.send();
 
     let _searchVal = dom as HTMLInputElement;
-    let _url = JsonQuery(_searchKeywords,{"keywords":_searchVal.value});
+    let _url = Utils.JsonQuery(window.searchKeywords,{"keywords":_searchVal.value});
     let _searchWrap = document.getElementById('searchResult');
     if(_url.length>0){
         _searchWrap.innerHTML='';
@@ -34,19 +27,4 @@ export const Search = (dom) => {
         _searchHtml.innerHTML='搜索结果为：'+_url.length;
         _searchWrap.appendChild(_searchHtml);
     }
-}
-function JsonQuery(arr:Array<any>,obj:any):any{
-    let _arr:any = [];
-    for(let _jsonObj of arr){
-        let _b:boolean = true;
-        for(let prop in obj){
-            var _TEST = new RegExp(obj[prop]||null,"i");
-            if(!_TEST.test(_jsonObj[prop])){
-                _b = false;
-                break;
-            }
-        }
-        if(_b) _arr.push(_jsonObj)
-    }
-    return _arr;
 }
