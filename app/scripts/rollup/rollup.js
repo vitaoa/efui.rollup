@@ -1,11 +1,10 @@
-/**
- * Created by GA on 2018/11/14.
- */
 
-//
+import Browser from '../babel/es6/browser';
 import { carouselLeftRight } from '../babel/es6/carouselLeftRight';
 import { Search } from '../babel/ts/Search';
 
+//test
+console.log(Browser.isIE)
 
 // /*base*////////////////////////////////////////
 /*菜单切换*/

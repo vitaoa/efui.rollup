@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const fileinclude = require('gulp-file-include');
 const sass = require('gulp-sass');
 const rollup = require('gulp-rollup');
+const buble = require('rollup-plugin-buble');
 const typescript = require('rollup-plugin-typescript');
 const base64 = require('gulp-base64');
 const tinypng_nokey = require('gulp-tinypng-nokey');   //压缩图片 免费 不限制压缩次数，模拟用户上传和下载的行为
@@ -201,6 +202,8 @@ gulp.task('babel:js',function(){
 
 //---------------------------------------gulp-rollup（打包rollup-plugin-babel插件转码后的js）----------------------------//
 // rollup
+const pkg = require('./package.json');
+
 let _scriptsFiles = glob.sync(fileinclude_DIR + "scripts/**/*.*");
 gulp.task('rollup:js',function(done ) {
     _scriptsFiles.filter(function (file) {
@@ -217,23 +220,30 @@ gulp.task('rollup:js',function(done ) {
             .pipe(rollup({
                 //定义多入口
                 input: file,
-                output: {
-                    format: 'umd',
-                    name: name
-                },
                 plugins: [
                     typescript(),
-                    babel({
-                        presets: [
-                            ["@babel/env",
-                                {
-                                    "loose": true,
-                                    "modules":false
-                                }
-                            ]
-                        ]
-                    })
+                    buble(),
+                    // babel({
+                    //     presets: [
+                    //         ["@babel/env",
+                    //             {
+                    //                 "loose": true,
+                    //                 "modules":false
+                    //             }
+                    //         ]
+                    //     ]
+                    // })
                 ],
+                output: {
+                    format: 'umd',
+                    name: name,
+                    banner: `${`
+/**
+ * ${name} - v${pkg.version}
+ * Released on: ${new Date().toLocaleDateString()}
+ */
+`.trim()}\n`,
+                },
             }))
             .pipe(gulp.dest(DIST_DIR + 'js'));
     });
