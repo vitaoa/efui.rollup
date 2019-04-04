@@ -10,6 +10,8 @@ const path = require("path");
 const spritesmith = require('gulp.spritesmith');
 const gulpbabel = require("gulp-babel");
 const babel = require("rollup-plugin-babel");
+const browserify = require("browserify");
+
 
 //---------------------------------------参数声明----------------------------//
 const fileinclude_DIR = './app/';   // 源文件目录
@@ -151,19 +153,67 @@ gulp.task('sprites:more',function(done){
 });
 //---------------------------------------file-include----------------------------//
 
+//---------------------------------------browserify (打包淘汰)----------------------------//
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var uglify = require('gulp-uglify');
+// var streamify = require('gulp-streamify');
+gulp.task('browserify:js', function() {
+    var b = browserify({
+        entries: fileinclude_DIR + 'scripts/commonjs/test2.js',
+        debug: false,
+        standalone:'UMD'
+        // defining transforms here will avoid crashing your stream
+        // transform: ['babelify','aliasify']
+    });
+    return b.bundle()
+        .pipe(source('bundle.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('./dist'));
+});
+//---------------------------------------browserify----------------------------//
+
+//---------------------------------------gulp-babel (babel转码淘汰)----------------------------//
+//es6转码
+gulp.task('babel:js',function(){
+    return gulp.src([fileinclude_DIR + 'scripts/babel/**/*.*'],{base:fileinclude_DIR + 'scripts/babel/'})
+        .pipe(gulpbabel({
+            presets: [
+                ["@babel/preset-typescript"],
+                ["@babel/env",
+                    {
+                        "loose": true,
+                        "modules":false,
+                        // // "debug":true,
+                        // "targets": {
+                        //     // "chrome": "58",
+                        //     "ie": "7",
+                        //     "node": "current"
+                        // },
+                    }
+                ]
+            ],
+            // "exclude":[DIST_DIR + "js/lib/*.js"]
+        }))
+        .pipe(gulp.dest(fileinclude_DIR + 'scripts/dist'));
+});
+//---------------------------------------gulp-babel----------------------------//
+
+//---------------------------------------gulp-rollup（打包rollup-plugin-babel插件转码后的js）----------------------------//
 // rollup
-//---------------------------------------gulp-rollup----------------------------//
 let _scriptsFiles = glob.sync(fileinclude_DIR + "scripts/**/*.*");
-gulp.task('rollup:js', function() {
+gulp.task('rollup:js',function(done ) {
     _scriptsFiles.filter(function (file) {
-        return (file.indexOf("module/") !== -1) && (file.endsWith('.js'));//过滤不是js的文件
+        return (file.indexOf("rollup/") !== -1);//过滤
     }).forEach(function (file) {
         let basename = path.basename(file);
-        let name = basename.split('.')[0]
-        console.log(file)
-        console.log(name)
+        let name = basename.split('.')[0];
+        let baseDir = fileinclude_DIR + 'scripts/';
 
-        return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:fileinclude_DIR + 'scripts/module/'})
+        if(file.split('scripts/')[1].split('/')[0] == 'rollup'){
+            baseDir = fileinclude_DIR + 'scripts/' + file.split('scripts/')[1].split('/')[0]+ '/';
+        }
+        return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:baseDir})
             .pipe(rollup({
                 //定义多入口
                 input: file,
@@ -185,36 +235,11 @@ gulp.task('rollup:js', function() {
                     })
                 ],
             }))
-            .pipe(gulp.dest(DIST_DIR + 'js'))
+            .pipe(gulp.dest(DIST_DIR + 'js'));
     });
+    done();
 });
 //---------------------------------------gulp-rollup----------------------------//
-
-//---------------------------------------gulp-babel----------------------------//
-//es6转码
-gulp.task('babel:js',function(){
-    return gulp.src(fileinclude_DIR + 'scripts/plugin/**/*.*',{base:fileinclude_DIR + 'scripts/'})
-        .pipe(gulpbabel({
-            presets: [
-                ["@babel/preset-typescript"],
-                ["@babel/env",
-                    {
-                        "loose": true,
-                        "modules":false,
-                        // "debug":true,
-                        "targets": {
-                            // "chrome": "58",
-                            "ie": "7",
-                            "node": "current"
-                        },
-                    }
-                ]
-            ],
-            // "exclude":[DIST_DIR + "js/lib/*.js"]
-        }))
-        .pipe(gulp.dest(DIST_DIR + 'js'));
-});
-//---------------------------------------gulp-babel----------------------------//
 
 
 // scss编译

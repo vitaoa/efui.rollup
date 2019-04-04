@@ -3,7 +3,8 @@
  */
 
 //
-// import { sliderAroundLeftRight } from '../ts/Slider.ts';
+import { carouselLeftRight } from '../babel/es6/carouselLeftRight';
+import { Search } from '../babel/ts/Search';
 
 
 // /*base*////////////////////////////////////////

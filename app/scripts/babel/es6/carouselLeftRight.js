@@ -1,7 +1,7 @@
 /**
  * 轮播插件-CAROUSEL
  */
-const carouselLeftRight = (dom,options) =>{
+export function carouselLeftRight(dom,options){
     let option = Object.assign({},options);
 
     let cArr = option.cArr;
