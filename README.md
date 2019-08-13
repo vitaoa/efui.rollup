@@ -113,7 +113,29 @@
 
         用途是在rollup.js打包的过程中进行代码编译，将ES6+代码编译成ES2015标准，取代Babel
         安装：npm i -D rollup-plugin-buble
+       
+1. **rollup-plugin-node-resolve**
 
+        解决问题： but could not be resolved – treating it as an external dependency
+        搜寻外部依赖, --- 输出文件包含引入的模块。
+        
+1. **rollup-plugin-commonjs**
+
+        解决问题： 'default' is not exported by node_modules\react\react.js
+
+1. **rollup-plugin-replace**
+
+        解决问题： process not defined
+        这个错误是在打包成功之后，浏览器运行发现的，发现打包之后的代码中有process.env.NODE_ENV
+        解决方案：   
+        import replace from 'rollup-plugin-replace'        
+        const env = process.env.NODE_ENV
+        plugins: [
+         replace({
+              'process.env.NODE_ENV': JSON.stringify(env)
+            }),
+        ]
+        把 process.env.NODE_ENV这个替换掉
         
 ### gulp插件：       
 1. **gulp-file-include**:   
@@ -215,6 +237,9 @@
                 .pipe(gulp.dest(DIST_DIR + 'js/'))
         });
 
+1. **gulp-uglify**
+
+        安装：npm install --save-dev gulp-uglify    
         
 ### npm插件：  
 1. **安装Browsersync实时刷新浏览器**: npm install --save-dev browser-sync
@@ -252,6 +277,7 @@
             1: 先切换到分支gh-pages：git checkout gh-pages
             2: 合并commit b169a68：git cherry-pick b169a68
             现在b169a68就被合并到gh-pages分支，并在gh-pages中添加了commit（作为一个新的commit）。
+    
         
     1. 合并一系列相连的commits，用git rebase更适合
             
@@ -266,6 +292,16 @@
             eg:将dev分支上 f 文件追加补丁到master分支上 f文件
             1: git checkout dev
             2: git checkout --patch master f.txt
+            
+    1. 更新branch到master最新状态：
+    
+            eg:将dev分支更新到master的最新状态
+            1: git checkout master
+            2: git pull origin master 
+            3: git checkout dev  
+            4: git merge master  //合并master到分支
+            5: git push origin dev //提交到远程dev分支,实现与master同步
+                
 
 
 ### 包管理工具    

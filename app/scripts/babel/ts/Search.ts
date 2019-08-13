@@ -2,9 +2,11 @@ import Utils from '../es6/utils/utils.js';
 
 declare global {
     interface Window {
-        searchKeywords: ''
+        searchKeywords: any
     }
 }
+
+
 let request = new XMLHttpRequest();
 export const Search = (dom) => {
     request.onload = Utils.levelRequestListener;

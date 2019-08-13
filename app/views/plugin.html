@@ -72,11 +72,9 @@
 				<li class="dn">
 					<div class="example-title">轮播图：层叠</div>
 					<div class="example-demo">
-						<div class="carousel-pic" id="fnCarousel">
-							<div class="arrow-btns">
-								<i class="arrow-prev"><span class="arrow-prevh"></span></i>
-								<i class="arrow-next"><span class="arrow-nexth"></span></i>
-							</div>
+						<div class="carousel carousel-pic" id="fnCarousel">
+							<span class="arrow-btns arrow-prev"><i class="i-arrow-left"></i></span>
+							<span class="arrow-btns arrow-next"><i class="i-arrow-right"></i></span>
 							<ul>
 								<li class="li-3">
 									<i class="shadow-line-l"></i>
@@ -115,12 +113,12 @@
 						</div>
 					</div>
 				</li>
-				<li>
-					<div class="example-title">轮播图：左右切换</div>
+				<li class="dn">
+					<div class="example-title">轮播图：左右循环切换</div>
 					<div class="example-demo">
 						<div class="slider sliderLeftRight" id="fnsliderLeftRight">
-							<span class="arrow-btn btn-prev"><i class="i-arrow-left"></i></span>
-							<span class="arrow-btn btn-next"><i class="i-arrow-right"></i></span>
+							<span class="arrow-btn btn-prev"><i class="arrow-prev"></i></span>
+							<span class="arrow-btn btn-next"><i class="arrow-next"></i></span>
 							<div class="picswitch-itmes">
 								<ul class="slider-wrapper">
 									<li>
@@ -145,6 +143,33 @@
 									</li>
 								</ul>
 							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="example-title">轮播图：左右滑动切换</div>
+					<div class="example-demo">
+						<div class="swiper swipe-pic" id="fnswiperLeftRight">
+							<div class="swiper-wrapper">
+								<ul>
+									<li class="swiper-slide">
+										<img src="../images/carousel-pic1.png" alt="">
+									</li>
+									<li class="swiper-slide">
+										<img src="../images/carousel-pic2.png" alt="">
+									</li>
+									<li class="swiper-slide">
+										<img src="../images/carousel-pic3.png" alt="">
+									</li>
+								</ul>
+							</div>
+							<!-- Add Pagination -->
+							<div class="swiper-pagination">
+								<span></span><span></span><span></span>
+							</div>
+							<!-- Add Arrows -->
+							<div class="swiper-button-next"><i class="arrow-next"></i></div>
+							<div class="swiper-button-prev"><i class="arrow-prev"></i></div>
 						</div>
 					</div>
 				</li>

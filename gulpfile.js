@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const fileinclude = require('gulp-file-include');
 const sass = require('gulp-sass');
 const gulprollup = require('gulp-rollup');
+const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
 const typescript = require('rollup-plugin-typescript');
 const base64 = require('gulp-base64');
@@ -12,10 +13,13 @@ const spritesmith = require('gulp.spritesmith');
 const gulpbabel = require("gulp-babel");
 const babel = require("rollup-plugin-babel");
 const browserify = require("browserify");
-const terser = require("rollup-plugin-terser");
+const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
+const resolve = require('rollup-plugin-node-resolve');
 
 
 
+const env = process.env.NODE_ENV || 'development';
 //---------------------------------------参数声明----------------------------//
 const fileinclude_DIR = './app/';   // 源文件目录
 const DIST_DIR = './';   // 文件输出目录，根目录
@@ -24,8 +28,13 @@ const DIST_DIR = './';   // 文件输出目录，根目录
 //---------------------------------------file-include----------------------------//
 let _JsFiles = glob.sync("js/**/*.*");
 let _indexJs=[],_subJs=[];
+
 _JsFiles.filter(function (file) {
-    return (file.endsWith('.js'));
+    if(env !== 'development'){
+        return (file.indexOf('/lib/')!=-1) || file.endsWith('.min.js');
+    }else{
+        return ((file.indexOf('/lib/')!=-1) && file.indexOf('.min.')===-1) || ((file.endsWith('.js') && file.indexOf('.min.')===-1));
+    }
 }).forEach(function (file) {
     if(file.indexOf('/lib/')!=-1){
         _indexJs.unshift(file)
@@ -163,8 +172,6 @@ gulp.task('sprites:more',function(done){
 //---------------------------------------browserify (打包淘汰)----------------------------//
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var uglify = require('gulp-uglify');
-// var streamify = require('gulp-streamify');
 gulp.task('browserify:js', function() {
     var b = browserify({
         entries: fileinclude_DIR + 'scripts/commonjs/test2.js',
@@ -224,11 +231,15 @@ gulp.task('rollup:js',function(done ) {
         }
         return gulp.src(fileinclude_DIR + 'scripts/**/*.*',{base:baseDir})
             .pipe(gulprollup({
+                rollup: require('rollup'),
                 //定义多入口
                 input: file,
                 plugins: [
                     typescript(),
-                    buble(),
+                    resolve(),
+                    buble({
+                        modules:true
+                    }),
                     // babel({
                     //     presets: [
                     //         ["@babel/env",
@@ -250,13 +261,50 @@ gulp.task('rollup:js',function(done ) {
  */
 `.trim()}\n`,
                 },
-                }))
+            }))
+            .pipe(gulp.dest(DIST_DIR + 'js'))
+            .pipe(uglify({
+                output: {
+                    comments: 'some'
+                }
+            }))
+            .pipe(rename({suffix: '.min'}))
             .pipe(gulp.dest(DIST_DIR + 'js'));
     });
     done();
 });
 //---------------------------------------gulp-rollup----------------------------//
-
+gulp.task('rollup', (done) => {
+    _scriptsFiles.filter(function (file) {
+        return (file.indexOf("rollup/") !== -1);//过滤
+    }).forEach(function (file) {
+        let basename = path.basename(file);
+        let name = basename.split('.')[0];
+        let baseDir = fileinclude_DIR + 'scripts/';
+        if (file.split('scripts/')[1].split('/')[0] == 'rollup') {
+            baseDir = fileinclude_DIR + 'scripts/' + file.split('scripts/')[1].split('/')[0] + '/';
+        }
+        return rollup.rollup({
+            input: file,
+            external: ['jquery'],
+            plugins: [
+                typescript()
+            ]
+        }).then(bundle => {
+            return bundle.write({
+                file: './dist/library.js',
+                format: 'umd',
+                name: 'library',
+                globals: {
+                    jquery: "jQuery",
+                    // 'jquery':'$'
+                },
+                sourcemap: true
+            });
+        });
+    });
+    done();
+});
 
 // scss编译
 //---------------------------------------gulp-sass----------------------------//

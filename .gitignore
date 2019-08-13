@@ -20,3 +20,4 @@ index.html
 .zip
 .rar
 /*.log
+/package-lock.json
